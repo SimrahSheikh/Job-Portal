@@ -2,8 +2,7 @@
 import Login from "./components/Login";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import SignupHr from "./components/SignupHr";
-import SignupSeeker from "./components/SignupSeeker";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
@@ -11,8 +10,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/signup-hr" element={<SignupHr />} />
-          <Route path="/signup-seeker" element={<SignupSeeker />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
