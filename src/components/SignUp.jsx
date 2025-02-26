@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { jsSkills } from "../skills";
+import { Skills } from "../assets/skills";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -338,25 +338,14 @@ const SignUp = () => {
                       </span>
                     ))}
                   </div>
-                  {/* <select
-                    name="skills"
-                    onChange={handleSkillSelect}
-                    className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 mt-2"
-                  >
-                    <option value="">Select Skills</option>
-                    {jsSkills.map((skill) => (
-                      <option key={skill} value={skill}>
-                        {skill}
-                      </option>
-                    ))}
-                  </select> */}
+
                   <select
                     name="skills"
                     onChange={handleSkillSelect}
                     className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 mt-2"
                   >
                     <option value="">Select Skills</option>
-                    {[...new Set(jsSkills)].map((skill, index) => (
+                    {[...new Set(Skills)].map((skill, index) => (
                       <option key={`${skill}-${index}`} value={skill}>
                         {skill}
                       </option>
