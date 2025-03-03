@@ -14,7 +14,7 @@ const UserNavBar = () => {
           <NavItem icon={<Briefcase size={20} />} text="Jobs" link="/jobs" />
           <NavItem icon={<FileText size={20} />} text="Applied Jobs" link="/applied-jobs" />
           <NavItem icon={<Bookmark size={20} />} text="Saved Jobs" link="/saved-jobs" />
-          <NavItem icon={<FileText size={20} />} text="Application Status" link="/application-status" />
+          {/* <NavItem icon={<FileText size={20} />} text="Application Status" link="/application-status" /> */}
           <NavItem icon={<User size={20} />} text="Profile" link="/profile" />
         </ul>
       </nav>
