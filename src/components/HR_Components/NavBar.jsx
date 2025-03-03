@@ -19,7 +19,7 @@ const NavBar = () => {
         <ul className="space-y-2">
 
           <NavItem icon={<PlusCircle size={20} />} text="Post New Job" link="/hr/postjob" />
-          <NavItem icon={<Briefcase size={20} />} text="My Jobs" link="/hr/postedjobs" />
+          <NavItem icon={<Briefcase size={20} />} text="Posted Jobs" link="/hr/postedjobs" />
           <NavItem icon={<FileText size={20} />} text="Applications" link="/hr/applications" />
           <NavItem icon={<LogOut size={20} />} text="Logout" link="/logout" />
         </ul>
