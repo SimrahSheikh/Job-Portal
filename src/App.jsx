@@ -12,7 +12,7 @@ import PostedJobs from "./components/HR_Components/PostedJobs";
 // user dashboard imports
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserLayout from "./components/Layouts/UserLayout";
-import UserDashboard from "./components/User_Components/UserDashboard"; 
+// import UserDashboard from "./components/User_Components/UserDashboard"; 
 import Jobs from "./components/User_Components/Jobs";
 import AppliedJobs from "./components/User_Components/AppliedJobs";
 import SavedJobs from "./components/User_Components/SavedJobs";
