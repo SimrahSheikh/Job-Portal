@@ -1,1 +1,6 @@
 @import "tailwindcss";
+/* * {
+    --border-color: #2a2626;
+    --border-width: 1px;
+    border: var(--border-width) solid var(--border-color);
+} */
