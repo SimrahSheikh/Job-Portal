@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Skills } from "../../assets/skills";
+import { Skills } from "../../../data/skills";
 
 const initialFields = {
   CompanyName: "",

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Skills } from "../assets/skills";
+import { Skills } from "../../data/skills";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
