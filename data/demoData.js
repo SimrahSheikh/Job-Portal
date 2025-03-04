@@ -126,3 +126,18 @@ export const jobListings = [
       startDate: "2023-11-18",
     },
   ];
+
+  export const userData = [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john.doe@example.com",
+      password: "password123",
+      profilePic:"",
+      "isAdmin": true,
+      skills: ["JavaScript", "React", "Node.js"],
+      "isVerified": true,
+      },
+      ];
+
+      
