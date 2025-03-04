@@ -7,7 +7,7 @@ const StatusCard = ({ job }) => {
       {/* Company Logo and Save Button */}
       <div className="flex justify-between items-center">
         <div className="w-10 h-10 flex items-center justify-center bg-black text-white rounded-full font-bold">
-          <img src={job.logo} alt="" />
+        {job.logo}
         </div>
       </div>
 

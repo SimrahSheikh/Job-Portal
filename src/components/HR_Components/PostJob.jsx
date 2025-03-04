@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Skills } from "../../assets/skills";
+import { Skills } from "../../../data/skills";
 import { Cities } from "../../assets/cities";
 import axios from "axios";
 
