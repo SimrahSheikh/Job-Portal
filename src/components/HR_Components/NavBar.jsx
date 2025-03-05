@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { Link, useLocation } from "react-router-dom";
 import { LogOut, Briefcase, FileText, PlusCircle } from "lucide-react";
 
@@ -7,16 +6,17 @@ const NavBar = () => {
   const location = useLocation();
 const handleLogout = () => {}
 
+
   return (
     <aside className="h-screen fixed w-64 bg-white border-r shadow-md flex flex-col p-4 transition-all">
-     
+      {/* Company Name */}
       <div className="flex items-center justify-center py-4 text-xl font-bold text-gray-700">
         Job Portal
       </div>
-
+      
+      {/* Navigation Links */}
       <nav className="flex-1">
         <ul className="space-y-2">
-
           <NavItem icon={<PlusCircle size={20} />} text="Post New Job" link="/hr/postjob" />
           <NavItem icon={<Briefcase size={20} />} text="Posted Jobs" link="/hr/postedjobs" />
           <NavItem icon={<FileText size={20} />} text="Profile" link="/hr/profile" />
@@ -40,7 +40,6 @@ const handleLogout = () => {}
           <span className="text-xs text-gray-600">HR Manager</span>
         </div>
       </div> */}
-
     </aside>
   );
 };
