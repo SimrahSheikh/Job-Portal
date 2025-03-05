@@ -29,7 +29,7 @@ function App() {
             <Route path="/hr/postjob" element={<PostJob />} />
            <Route path="/hr/postedjobs" element={<PostedJobs />} />
             <Route path="/hr/profile" element={<HRProfile />} />
-            <Route path="/hr/" element={<HrHome />} />
+            <Route path="/hr/home" element={<HrHome />} />
             <Route path="/hr/postedjobs" element={<PostedJobs />} />
 
           </Route>
