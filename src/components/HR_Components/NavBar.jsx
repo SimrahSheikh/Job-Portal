@@ -17,9 +17,9 @@ const handleLogout = () => {}
       <nav className="flex-1">
         <ul className="space-y-2">
 
-          <NavItem icon={<PlusCircle size={20} />} text="Post New Job" link="/hr/postjob" />
-          <NavItem icon={<Briefcase size={20} />} text="Posted Jobs" link="/hr/postedjobs" />
-          <NavItem icon={<FileText size={20} />} text="Profile" link="/hr/profile" />
+          <NavItem icon={<PlusCircle size={20} />} text="Post New Job" link="/hr/postjob"  currentPath={location.pathname}/>
+          <NavItem icon={<Briefcase size={20} />} text="Posted Jobs" link="/hr/postedjobs"  currentPath={location.pathname}/>
+          <NavItem icon={<FileText size={20} />} text="Profile" link="/hr/profile"  currentPath={location.pathname}/>
         </ul>
       </nav>
       

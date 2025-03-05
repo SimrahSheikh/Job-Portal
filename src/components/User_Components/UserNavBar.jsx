@@ -11,7 +11,7 @@ const UserNavBar = () => {
       <div className="flex items-center justify-center py-4 text-xl font-bold text-gray-700">
         Job Portal
       </div>
-
+ 
       <nav className="flex-1">
         <ul className="space-y-2">
           <NavItem icon={<Briefcase size={20} />} text="Jobs" link="/jobs" currentPath={location.pathname} />
