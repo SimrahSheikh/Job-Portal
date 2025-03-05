@@ -4,6 +4,8 @@ import { LogOut, Briefcase, FileText, PlusCircle } from "lucide-react";
 
 const NavBar = () => {
   const location = useLocation();
+const handleLogout = () => {}
+
 
   return (
     <aside className="h-screen fixed w-64 bg-white border-r shadow-md flex flex-col p-4 transition-all">
@@ -15,15 +17,19 @@ const NavBar = () => {
       {/* Navigation Links */}
       <nav className="flex-1">
         <ul className="space-y-2">
-          <NavItem icon={<PlusCircle size={20} />} text="Post New Job" link="/hr/postjob" currentPath={location.pathname} />
-          <NavItem icon={<Briefcase size={20} />} text="Posted Jobs" link="/hr/postedjobs" currentPath={location.pathname} />
-          <NavItem icon={<FileText size={20} />} text="Applications" link="/hr/applications" currentPath={location.pathname} />
-          <NavItem icon={<LogOut size={20} />} text="Logout" link="/logout" currentPath={location.pathname} />
+          <NavItem icon={<PlusCircle size={20} />} text="Post New Job" link="/hr/postjob" />
+          <NavItem icon={<Briefcase size={20} />} text="Posted Jobs" link="/hr/postedjobs" />
+          <NavItem icon={<FileText size={20} />} text="Profile" link="/hr/profile" />
         </ul>
       </nav>
       
+      <button onClick={handleLogout} className="flex items-center p-3 rounded-md hover:bg-red-100 transition-all">
+        <LogOut size={20} />
+        <span className="ml-3 text-gray-700 font-medium">Logout</span>
+      </button>
+      
       {/* HR Info */}
-      <div className="border-t flex items-center p-3">
+      {/* <div className="border-t flex items-center p-3">
         <img 
           src="https://ui-avatars.com/api/?name=JH&background=c7d2fe&color=3730a3" 
           alt="HR Avatar" 
@@ -33,7 +39,7 @@ const NavBar = () => {
           <h4 className="font-semibold text-gray-800">Jhon Wick</h4>
           <span className="text-xs text-gray-600">HR Manager</span>
         </div>
-      </div>
+      </div> */}
     </aside>
   );
 };
