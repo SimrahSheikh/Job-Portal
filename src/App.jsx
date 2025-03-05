@@ -4,7 +4,7 @@ import Signup from "./components/Signup";
 // import NavBar from "./components/HR_Components/NavBar";
 import PostJob from "./components/HR_Components/PostJob";
 import HRLayout from "./components/Layouts/HRLayout";
-import { Applications } from "./components/HR_Components/Applications";
+import { HrHome } from "./components/HR_Components/HrHome";
 import PostedJobs from "./components/HR_Components/PostedJobs";
 import UserLayout from "./components/Layouts/UserLayout";
 import UserDashboard from "./components/User_Components/UserDashboard";
@@ -26,7 +26,7 @@ function App() {
 
           <Route path="/hr" element={<HRLayout />}>
             <Route path="/hr/postjob" element={<PostJob />} />
-            <Route path="/hr/applications" element={<Applications />} />
+            <Route path="/hr/" element={<HrHome />} />
             <Route path="/hr/postedjobs" element={<PostedJobs />} />
           </Route>
 
