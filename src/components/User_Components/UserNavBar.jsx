@@ -14,10 +14,10 @@ const UserNavBar = () => {
  
       <nav className="flex-1">
         <ul className="space-y-2">
-          <NavItem icon={<Briefcase size={20} />} text="Jobs" link="/jobs" currentPath={location.pathname} />
-          <NavItem icon={<FileText size={20} />} text="Applied Jobs" link="/applied-jobs" currentPath={location.pathname} />
-          <NavItem icon={<Bookmark size={20} />} text="Saved Jobs" link="/saved-jobs" currentPath={location.pathname} />
-          <NavItem icon={<User size={20} />} text="Profile" link="/profile" currentPath={location.pathname} />
+          <NavItem icon={<Briefcase size={20} />} text="Jobs" link="/user/jobs" currentPath={location.pathname} />
+          <NavItem icon={<FileText size={20} />} text="Applied Jobs" link="/user/applied-jobs" currentPath={location.pathname} />
+          <NavItem icon={<Bookmark size={20} />} text="Saved Jobs" link="/user/saved-jobs" currentPath={location.pathname} />
+          <NavItem icon={<User size={20} />} text="Profile" link="/user/profile" currentPath={location.pathname} />
         </ul>
       </nav>
     </aside>
