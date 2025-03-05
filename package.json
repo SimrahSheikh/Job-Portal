@@ -14,8 +14,12 @@
     "@reduxjs/toolkit": "^2.6.0",
     "@tailwindcss/postcss": "^4.0.9",
     "@tailwindcss/vite": "^4.0.9",
+<<<<<<< HEAD
     "axios": "^1.8.0",
     "chart.js": "^4.4.8",
+=======
+    "axios": "^1.8.1",
+>>>>>>> afe12040f5f45bae0da9c34c3880656d177dbf41
     "flowbite": "^3.0.0-beta.1",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
@@ -23,7 +27,8 @@
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "universal-cookie": "^7.2.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
