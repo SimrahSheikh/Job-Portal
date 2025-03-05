@@ -3,7 +3,7 @@ import { Briefcase, Bookmark, FileText, User } from "lucide-react";
 
 const UserNavBar = () => {
   const location = useLocation();
-  console.log(location.pathname);
+  // console.log(location.pathname);
   
 
   return (
