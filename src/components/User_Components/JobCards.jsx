@@ -67,7 +67,7 @@ function JobCards({ id, logo, company, timePosted, title, type, level, salary, l
       </div>
 
       {/* Salary & Location */}
-      <p className="text-lg font-semibold mt-4">{salary}</p>
+      <p className="text-lg font-semibold mt-4">{salary.toLocaleString()}</p>
       <p className="text-gray-500 text-sm">{location}</p>
 
       {/* Apply Button */}
