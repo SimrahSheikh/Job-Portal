@@ -2,6 +2,6 @@ import React from 'react'
 
 export const HrHome = () => {
   return (
-    <div>HrHome</div>
+    <div aria-live=''>HrHome</div>
   )
 }
