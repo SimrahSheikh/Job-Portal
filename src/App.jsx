@@ -4,8 +4,8 @@ import Signup from "./components/Signup";
 // import NavBar from "./components/HR_Components/NavBar";
 import PostJob from "./components/HR_Components/PostJob";
 import HRLayout from "./components/Layouts/HRLayout";
-// import { Applications } from "./components/HR_Components/Applications";
 import HRProfile from "./components/HR_Components/HRProfile";
+import { HrHome } from "./components/HR_Components/HrHome";
 import PostedJobs from "./components/HR_Components/PostedJobs";
 import UserLayout from "./components/Layouts/UserLayout";
 import UserDashboard from "./components/User_Components/UserDashboard";
@@ -27,19 +27,20 @@ function App() {
 
           <Route path="/hr" element={<HRLayout />}>
             <Route path="/hr/postjob" element={<PostJob />} />
-            {/* <Route path="/hr/applications" element={<Applications />} /> */}
            <Route path="/hr/postedjobs" element={<PostedJobs />} />
             <Route path="/hr/profile" element={<HRProfile />} />
+            <Route path="/hr/" element={<HrHome />} />
+            <Route path="/hr/postedjobs" element={<PostedJobs />} />
+
           </Route>
 
           {/* User Dashboard Routes */}
           <Route element={<UserLayout />}>
-            <Route index element={<UserDashboard />} />
+            {/* <Route index element={<UserDashboard />} /> */}
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/jobs/:id" element={<JobDetails />} />
             <Route path="/applied-jobs" element={<AppliedJobs />} />
             <Route path="/saved-jobs" element={<SavedJobs />} />
-            {/* <Route path="/application-status" element={<ApplicationStatus />} /> */}
             <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>
