@@ -32,7 +32,7 @@ function App() {
 
           {/* User Dashboard Routes */}
           <Route element={<UserLayout />}>
-            <Route index element={<UserDashboard />} />
+            {/* <Route index element={<UserDashboard />} /> */}
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/jobs/:id" element={<JobDetails />} />
             <Route path="/applied-jobs" element={<AppliedJobs />} />
