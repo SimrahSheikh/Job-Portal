@@ -7,11 +7,11 @@ const initialFields = {
   CompanyName: "",
   Title: "",
   JobType: "",
-  Location: "",
+  Location: [],
   JobDescription: "",
   Salary: "",
   Experience: "",
-  SkillsReq: "",
+  SkillsReq: [],
   Vacancy: "",
   lastDate: "",
 };
@@ -22,40 +22,76 @@ const PostJob = () => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
 
+  // Handle input change
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   let tempErrors = { ...errors };
+
+  //   // Convert numeric fields
+  //   let numericValue = value;
+  //   if (["Salary", "Vacancy", "Experience"].includes(name)) {
+  //     numericValue = value === "" ? "" : Math.max(0, Number(value));
+  //   }
+
+  //   // Validate numeric values
+  //   if (
+  //     ["Salary", "Vacancy", "Experience"].includes(name) &&
+  //     numericValue < 0
+  //   ) {
+  //     tempErrors[
+  //       name
+  //     ] = `Invalid ${name.toLowerCase()}, please enter a positive value`;
+  //   } else {
+  //     delete tempErrors[name];
+  //   }
+
+  //   setErrors(tempErrors);
+  //   setFields((prev) => ({ ...prev, [name]: numericValue }));
+  // };
   const handleChange = (e) => {
     const { name, value } = e.target;
     let tempErrors = { ...errors };
-
-    // Convert value to a number only if it's a numeric field
-    let numericValue = value;
+  
+    // Trim spaces
+    const sanitizedValue = value.trim();
+  
+    // Convert numeric fields
+    let numericValue = sanitizedValue;
     if (["Salary", "Vacancy", "Experience"].includes(name)) {
-      numericValue = value === "" ? "" : Math.max(0, Number(value)); // Prevent negatives
+      numericValue = sanitizedValue === "" ? "" : Math.max(0, Number(sanitizedValue));
     }
-
-    // Validate for negative values
+  
+    // Validate numeric values
     if (
       ["Salary", "Vacancy", "Experience"].includes(name) &&
       numericValue < 0
     ) {
-      tempErrors[
-        name
-      ] = `Invalid ${name.toLowerCase()}, please enter a positive value`;
+      tempErrors[name] = `Invalid ${name.toLowerCase()}, please enter a positive value`;
     } else {
-      delete tempErrors[name]; // Remove error if value is valid
+      delete tempErrors[name];
     }
-
+  
+    // Ensure lastDate is fully formatted
+    if (name === "lastDate" && !/^\d{4}-\d{2}-\d{2}$/.test(sanitizedValue)) {
+      tempErrors[name] = "Please select a valid date";
+    } else {
+      delete tempErrors[name];
+    }
+  
     setErrors(tempErrors);
-    setFields((prev) => ({ ...prev, [name]: numericValue }));
+    setFields((prev) => ({ ...prev, [name]: sanitizedValue }));
   };
-
+  // Handle skill selection
   const handleSkillChange = (e) => {
     const skill = e.target.value;
     if (skill && !selectedSkills.includes(skill)) {
-      setSelectedSkills([...selectedSkills, skill]);
-      setFields((prev) => ({ ...prev, SkillsReq: [...prev.SkillsReq, skill] }));
+      const updatedSkills = [...selectedSkills, skill];
+      setSelectedSkills(updatedSkills);
+      setFields((prev) => ({ ...prev, SkillsReq: updatedSkills }));
     }
   };
 
+  // Handle job description change (limit 500 words)
   const handleJobDescriptionChange = (e) => {
     const value = e.target.value;
     const words = value.trim().split(/\s+/);
@@ -64,73 +100,159 @@ const PostJob = () => {
     }
   };
 
+  // Remove a selected skill
   const removeSkill = (skill) => {
     const updatedSkills = selectedSkills.filter((s) => s !== skill);
     setSelectedSkills(updatedSkills);
     setFields((prev) => ({ ...prev, SkillsReq: updatedSkills }));
   };
 
+  // Handle city selection
   const handleCitySelect = (e) => {
     const city = e.target.value;
     if (city && !selectedCities.includes(city)) {
-      setSelectedCities([...selectedCities, city]);
+      const updatedCities = [...selectedCities, city];
+      setSelectedCities(updatedCities);
+      setFields((prev) => ({ ...prev, Location: updatedCities }));
     }
   };
 
+  // Remove a selected city
   const removeCity = (city) => {
-    setSelectedCities(selectedCities.filter((c) => c !== city));
+    const updatedCities = selectedCities.filter((c) => c !== city);
+    setSelectedCities(updatedCities);
+    setFields((prev) => ({ ...prev, Location: updatedCities }));
   };
 
+  // Handle blur validation
   const handleBlur = (e) => {
     const { name, value } = e.target;
     let tempErrors = { ...errors };
 
-    if (!value) {
+    if (!value && value !== 0) {
       tempErrors[name] = `${name.replace(/([A-Z])/g, " $1")} is required`;
-    } else if (
-      ["Salary", "Vacancy", "Experience"].includes(name) &&
-      value < 0
-    ) {
-      tempErrors[
-        name
-      ] = `Invalid ${name.toLowerCase()}, please enter a positive value`
     } else {
-      delete tempErrors[name]; // Remove error if input is valid
+      delete tempErrors[name];
     }
 
     setErrors(tempErrors);
   };
 
+  // Handle job post submission
+  // const handleUpload = async (e) => {
+  //   e.preventDefault();
+
+  //   let tempErrors = {};
+  //   Object.keys(fields).forEach((key) => {
+  //     if (
+  //       (!fields[key] || fields[key].length === 0) &&
+  //       key !== "SkillsReq" &&
+  //       key !== "Location"
+  //     ) {
+  //       tempErrors[key] = `${key.replace(/([A-Z])/g, " $1")} is required`;
+  //     }
+  //   });
+
+  //   if (selectedSkills.length === 0) {
+  //     tempErrors["SkillsReq"] = "Please select at least one skill";
+  //   }
+
+  //   if (selectedCities.length === 0) {
+  //     tempErrors["Location"] = "Please select at least one location";
+  //   }
+
+  //   setErrors(tempErrors);
+
+  //   if (Object.keys(tempErrors).length > 0) {
+  //     alert("Please fill in all required fields.");
+  //     return;
+  //   }
+
+  //   const token = localStorage.getItem("token");
+  //   console.log("Token: ", token);
+
+  //   const jobData = {
+  //     ...fields,
+  //     SkillsReq: selectedSkills,
+  //     Location: selectedCities,
+  //   };
+
+  //   try {
+  //     await axios.post("http://localhost:3000/hr/postjob", jobData, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+
+  //     alert("Job posted successfully!");
+  //     setFields(initialFields);
+  //     setSelectedSkills([]);
+  //     setSelectedCities([]);
+  //   } catch (error) {
+  //     console.error("Error posting job:", error);
+  //     alert(
+  //       error.response?.data?.message ||
+  //         "An error occurred while posting the job."
+  //     );
+  //   }
+  // };
   const handleUpload = async (e) => {
     e.preventDefault();
-
-    const token = localStorage.getItem("token"); // Retrieve token from localStorage
-
+  
+    let tempErrors = {};
+  
+    // Check required fields
+    Object.keys(fields).forEach((key) => {
+      if ((!fields[key] || fields[key].length === 0) && key !== "SkillsReq" && key !== "Location") {
+        tempErrors[key] = `${key.replace(/([A-Z])/g, " $1")} is required`;
+      }
+    });
+  
+    // Ensure at least one skill and one location
+    if (selectedSkills.length === 0) tempErrors["SkillsReq"] = "Please select at least one skill";
+    if (selectedCities.length === 0) tempErrors["Location"] = "Please select at least one location";
+  
+    // Ensure lastDate is properly formatted
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(fields.lastDate)) {
+      tempErrors["lastDate"] = "Please select a valid date";
+    }
+  
+    setErrors(tempErrors);
+  
+    if (Object.keys(tempErrors).length > 0) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+  
+    const token = localStorage.getItem("token");
+  
+    const jobData = {
+      ...fields,
+      SkillsReq: selectedSkills,
+      Location: selectedCities,
+    };
+  
     try {
-      const response = await axios.post(
-        "http://localhost:3000/hr/postjob",
-        fields, // Sending job post data
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:` Bearer ${token}`, // Attach token for authentication
-          },
-        }
-      );
-
+      await axios.post("http://localhost:3000/hr/postjob", jobData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
       alert("Job posted successfully!");
-      setFields(initialFields); // Reset form after successful post
+      setFields(initialFields);
+      setSelectedSkills([]);
+      setSelectedCities([]);
     } catch (error) {
       console.error("Error posting job:", error);
-      alert(
-        error.response?.data?.message ||
-          "An error occurred while posting the job."
-      );
+      alert(error.response?.data?.message || "An error occurred while posting the job.");
     }
   };
-
+  
   return (
-    <div className="max-w-2xl mx-auto p-8 bg-white shadow-xl rounded-xl font-sans">
+    <div className="w-full max-w-2xl mx-auto p-6 border border-gray-300 rounded-lg shadow-lg bg-white transition-transform transform hover:scale-105 duration-300">
       <h3 className="text-2xl font-bold mb-6 text-gray-800 text-center">
         Create a Job Post
       </h3>
@@ -234,12 +356,12 @@ const PostJob = () => {
               {selectedSkills.map((skill, index) => (
                 <div
                   key={index}
-                  className="flex items-center bg-blue-200 text-blue-800 px-3 py-1 rounded-full"
+                  className="flex items-center bg-gray-200 text-slate-950 px-3 py-1 rounded-full"
                 >
                   {skill}
                   <button
                     onClick={() => removeSkill(skill)}
-                    className="ml-2 text-red-600 font-bold"
+                    className="ml-2 text-gray-400 font-bold"
                   >
                     ×
                   </button>
@@ -270,12 +392,12 @@ const PostJob = () => {
               {selectedCities.map((city, index) => (
                 <span
                   key={index}
-                  className="flex items-center bg-blue-200 text-blue-800 px-3 py-1 rounded-full"
+                  className="flex items-center bg-gray-200 text-slate-950 px-3 py-1 rounded-full"
                 >
                   {city}
                   <button
                     onClick={() => removeCity(city)}
-                    className="ml-2 text-red-600 font-bold"
+                    className="ml-2 text-gray-400 font-bold"
                   >
                     ×
                   </button>
@@ -351,13 +473,16 @@ const PostJob = () => {
               <p className="text-red-500 text-sm">{errors.lastDate}</p>
             )}
           </div>
-          <button
-            type="submit"
-            onClick={handleUpload}
-            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition"
-          >
-            Upload
-          </button>
+          <div className="flex justify-center mt-4">
+            <button
+              type="submit"
+              onChange={handleChange}
+              onClick={handleUpload}
+              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200 "
+            >
+              Upload
+            </button>
+          </div>
         </div>
       </form>
     </div>
