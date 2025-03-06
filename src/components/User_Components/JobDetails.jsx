@@ -14,7 +14,7 @@ const JobDetails = () => {
   const [location, setLocation] = useState("");
   const [coverLetter, setCoverLetter] = useState("");
   const cookies = new Cookies();
-  const token = cookies.get("user-token");
+  const token = cookies.get("user-token") || localStorage.getItem("auth-token");
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -58,7 +58,7 @@ const JobDetails = () => {
     formData.append("hrId", job.HRId);
 
     try {
-      await axios.post(`http://localhost:3000/user/profile/application/${id}`, formData, {
+      await axios.post(`https://fwk4p38z-3000.inc1.devtunnels.ms/user/profile/application/${id}`, formData, {
         headers: {
           "authorization-user": 'Bearer ' + token,
           "Content-Type": "multipart/form-data",

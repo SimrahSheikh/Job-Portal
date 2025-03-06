@@ -11,6 +11,7 @@ export default function JobList() {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3000/hr/getjobs");
+        // console.log(response.data[10]);
         setJobs(response.data);
         setLoading(false);
       } catch (error) {
