@@ -19,7 +19,7 @@ const PostedJobs = () => {
       } finally {
         setLoading(false);
       }
-    };
+    }; 
     fetchJobs();
   }, []);
   const viewApplication = async (job) => {

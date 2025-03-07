@@ -1,6 +1,6 @@
 import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signup from "./components/Signup";
 import PostJob from "./components/HR_Components/PostJob";
 import HRLayout from "./components/Layouts/HRLayout";
 import HRProfile from "./components/HR_Components/HrProfile";
@@ -21,7 +21,7 @@ function App() {
       <div className="relative h-screen">
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
 
           <Route path="/hr" element={<HRLayout />}>
@@ -30,7 +30,6 @@ function App() {
             <Route path="/hr/profile" element={<HRProfile />} />
             <Route path="/hr/home" element={<HrHome />} />
             <Route path="applications/:jobId" element={<Applications />} />
-            {/* <Route path="/hr/postedjobs" element={<PostedJobs />} /> */}
 
           </Route>
 
