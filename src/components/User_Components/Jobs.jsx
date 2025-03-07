@@ -6,6 +6,7 @@ export default function JobList() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("auth-token");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +47,7 @@ export default function JobList() {
             type={job.JobType}
             level={job.Experience}
             salary={job.Salary}
-            location={job.Location.join(", ")}
+            location={Array.isArray(job.Location) ? job.Location.join(", ") : job.Location}
           />
         ))}
       </div>

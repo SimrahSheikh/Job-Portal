@@ -14,7 +14,7 @@ const JobDetails = () => {
   const [location, setLocation] = useState("");
   const [coverLetter, setCoverLetter] = useState("");
   const cookies = new Cookies();
-  const token = cookies.get("user-token");
+  const token = cookies.get("user-token") || localStorage.getItem("auth-token");
 
   useEffect(() => {
     const fetchJobDetails = async () => {
