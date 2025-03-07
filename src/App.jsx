@@ -1,18 +1,17 @@
 import Login from "./components/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./components/Signup";
-// import NavBar from "./components/HR_Components/NavBar";
 import PostJob from "./components/HR_Components/PostJob";
 import HRLayout from "./components/Layouts/HRLayout";
 import HRProfile from "./components/HR_Components/HrProfile";
 import { HrHome } from "./components/HR_Components/HrHome";
+import Applications from "./components/HR_Components/Applications";
 import PostedJobs from "./components/HR_Components/PostedJobs";
 import UserLayout from "./components/Layouts/UserLayout";
 import UserDashboard from "./components/User_Components/UserDashboard";
 import Jobs from "./components/User_Components/Jobs";
 import AppliedJobs from "./components/User_Components/AppliedJobs";
 import SavedJobs from "./components/User_Components/SavedJobs";
-// import ApplicationStatus from "./components/User_Components/ApplicationStatus";
 import Profile from "./components/User_Components/Profile";
 import JobDetails from "./components/User_Components/JobDetails";
 
@@ -30,6 +29,7 @@ function App() {
            <Route path="/hr/postedjobs" element={<PostedJobs />} />
             <Route path="/hr/profile" element={<HRProfile />} />
             <Route path="/hr/home" element={<HrHome />} />
+            <Route path="applications/:jobId" element={<Applications />} />
             {/* <Route path="/hr/postedjobs" element={<PostedJobs />} /> */}
 
           </Route>
