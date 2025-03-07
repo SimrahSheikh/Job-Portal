@@ -1,7 +1,7 @@
 // src/UserProfile.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ProfilePic from "../../assets/defaultAvatar.jpg";
+import ProfilePic from "../../assets/defaultAvatar.png";
 import {Skills} from "../../../data/skills";
 
 
