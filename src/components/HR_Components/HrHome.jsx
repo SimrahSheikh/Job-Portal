@@ -42,7 +42,7 @@ export const HrHome = () => {
 
   return (
     <div className="flex" >
-      <NavBar />
+     
       <div className="ml-64 flex-1 flex items-center justify-center bg-gray-100 min-h-screen">
         <h2 className="text-xl font-semibold mb-4"></h2>
         <div className="Bar Graph justify-centre">
