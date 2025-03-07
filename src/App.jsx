@@ -25,6 +25,7 @@ function App() {
           <Route path="/login" element={<Login />} />
 
           <Route path="/hr" element={<HRLayout />}>
+          <Route index element={<HrHome />} />
             <Route path="/hr/postjob" element={<PostJob />} />
            <Route path="/hr/postedjobs" element={<PostedJobs />} />
             <Route path="/hr/profile" element={<HRProfile />} />
