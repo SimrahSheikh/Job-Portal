@@ -193,8 +193,7 @@ const UserProfile = () => {
             <input
               type={field === "password" ? "password" : "text"}
               name={field}
-              value={field === "password" ? "* * * * * * * *" : formData[field]}
-
+              value ={formData[field]}
               onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
               disabled={!isEditing}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-200 hover:border-gray-400"
@@ -204,7 +203,7 @@ const UserProfile = () => {
             />
           </div>
         ))}
-
+        
         <div>
           <label className="block text-sm font-medium text-gray-700">Resume</label>
           <div className="mt-1">
@@ -261,6 +260,7 @@ const UserProfile = () => {
                     key={index}
                     className="flex items-center bg-gray-200 text-slate-950 px-3 py-1 rounded-full"
                   >
+
                     {skill}
                     <button
                       onClick={() => removeSkill(skill)}
@@ -268,6 +268,7 @@ const UserProfile = () => {
                     >
                       ×
                     </button>
+                  
                   </div>
                 ))}
               </div>
