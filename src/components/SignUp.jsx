@@ -121,6 +121,7 @@ const SignUp = () => {
   };
 
   return (
+    
     <div className="font-[sans-serif] w-full bg-gray-800 min-h-screen flex flex-col">
       <div className="text-center bg-gray-900 from-blue-800 to-blue-400 min-h-[180px] sm:p-6 p-4">
         <h4 className="sm:text-3xl text-2xl text-white mt-3">
@@ -343,6 +344,7 @@ const SignUp = () => {
           </div>
         </form>
       </div>
+      
     </div>
   );
 };
