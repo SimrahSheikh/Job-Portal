@@ -13,7 +13,7 @@ const AppliedJobs = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://fwk4p38z-3000.inc1.devtunnels.ms/user/profile/appliedjobs/myjob', {
+        const response = await axios.get('http://localhost:3000/user/profile/appliedjobs/myjob', {
           headers: {
             "authorization-user": 'Bearer ' + token,
           },

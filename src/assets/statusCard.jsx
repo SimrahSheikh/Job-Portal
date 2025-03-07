@@ -2,9 +2,9 @@
 import React from 'react';
 
 const StatusCard = ({ job }) => {
-  console.log(job);
+  // console.log(job);
   return (
-    <div key={job._id} className="max-w-sm p-5 bg-white shadow-lg rounded-2xl border">
+    <div key={job._id} className="max-w-sm p-5 bg-white shadow-lg rounded-2xl border transition-transform transform hover:scale-105 duration-300">
       {/* Company Logo and Save Button */}
       <div className="flex justify-between items-center">
         <div className="w-10 h-10 flex items-center justify-center bg-black text-white rounded-full font-bold">
@@ -27,8 +27,8 @@ const StatusCard = ({ job }) => {
       </div>
 
       {/* Salary & Location */}
-      <p className="text-lg font-semibold mt-4">{job.jobDetails.Salary} per Annum</p>
-      <p className="text-gray-500 text-sm">{job.location}</p>
+      <p className="text-lg font-semibold mt-4">{job.jobDetails.Salary.toLocaleString()} per Annum</p>
+      <p className="text-gray-500 text-sm">{Array.isArray(job.jobDetails.Location) ? job.jobDetails.Location.join(", ") : job.jobDetails.Location}</p>
 
       {/* Job Status */}
       <p className="mt-3">

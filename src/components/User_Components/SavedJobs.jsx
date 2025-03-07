@@ -16,7 +16,6 @@ const SavedJobs = () => {
             "authorization-user": 'Bearer ' + token,
           }
         });
-        // console.log(response.data[0]);
         setSavedJobs(response.data);
         setLoading(false);
       } catch (error) {
@@ -27,7 +26,7 @@ const SavedJobs = () => {
     };
 
     fetchData();
-  }, [savedJobs]);
+  }, []);
 
   if (loading) {
     return <p className="text-center">Loading...</p>;
@@ -52,7 +51,7 @@ const SavedJobs = () => {
             type={job.JobType}
             level={job.Experience}
             salary={job.Salary}
-            location={Array.isArray(job.Location) ? job.Location.join(", ") : job.Location} // Handle location as array or string
+            location={Array.isArray(job.Location) ? job.Location.join(", ") : job.Location}
           />
         ))}
       </div>
