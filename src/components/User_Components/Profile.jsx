@@ -126,7 +126,7 @@ const UserProfile = () => {
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-6 border border-gray-300 rounded-lg shadow-lg bg-white transition-transform transform hover:scale-105 duration-300">
+    <div className="w-full max-w-3xl mx-auto p-6 border border-gray-300 rounded-lg shadow-lg bg-white ">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold text-gray-800">{formData.name}</h2>
         <button

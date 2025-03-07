@@ -1,21 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import StatusCard from '../../assets/statusCard.jsx';
-import { appliedData } from '../../../data/appliedData.js';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 const AppliedJobs = () => {
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const cookies = new Cookies();
+  const token = cookies.get("user-token") || localStorage.getItem("auth-token");
 
   useEffect(() => {
-    // Simulate fetching data
-    try {
-      setAppliedJobs(appliedData);
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/user/profile/appliedjobs/myjob', {
+          headers: {
+            "authorization-user": 'Bearer ' + token,
+          },
+        });
+        setAppliedJobs(response.data);
+        // console.log(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+        setLoading(false);
+      }
     }
+    fetchData();
   }, []);
 
   if (loading) {
