@@ -26,7 +26,7 @@ const SavedJobs = () => {
     };
 
     fetchData();
-  }, []);
+  }, [savedJobs]);
 
   if (loading) {
     return <p className="text-center">Loading...</p>;
