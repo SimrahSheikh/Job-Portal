@@ -1,6 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import { Skills } from "../../data/skills";
+import { useDispatch, useSelector } from 'react-redux';
+import { signupHR, signupUser } from "../store/slice/AuthSlice";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,8 @@ const SignUp = () => {
 
   const [selectedRole, setSelectedRole] = useState(""); // No role selected initially
   const [errors, setErrors] = useState({});
+  const { loading, error } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const validateForm = () => {
     let newErrors = {};
@@ -105,63 +108,18 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      if (selectedRole === "jobseeker") {
-        const sendJobseekerData = {
-          name: formData.SeekerName,
-          email: formData.email,
-          password: formData.password,
-          phoneNumber: formData.phone,
-          skills: formData.skills,
-          resumePath: " ",
-          experience: formData.experience,
-          education: " ",
-        };
-
-        try {
-          const response = await axios.post(
-            "https://7b14lbqm-3000.inc1.devtunnels.ms/auth/signup/user",
-            sendJobseekerData
-          );
-          console.log(response);
-        } catch (error) {
-          console.error(error);
-        }
-        console.log("Form submitted", sendJobseekerData);
-      } else if (selectedRole === "hr") {
-        const sendHrData = {
-          name: formData.hrName,
-          email: formData.email,
-          password: formData.password,
-          phoneNumber: formData.phone,
-          companyName: formData.companyName,
-        };
-
-        try {
-          const response = await axios.post(
-            "https://7b14lbqm-3000.inc1.devtunnels.ms/auth/signup/hr",
-            sendHrData
-          );
-          console.log(response);
-        } catch (error) {
-          console.error(error);
-        }
-        console.log("Form submitted", sendHrData);
+      const userData = formData;
+      if (selectedRole === "hr") {
+        dispatch(signupHR(userData));
+        console.log(userData);
+      } else if (selectedRole === "jobseeker") {
+        dispatch(signupUser(userData));
+        console.log(userData);
+        
       }
-
-      setFormData({
-        companyName: "",
-        hrName: "",
-        SeekerName: "",
-        skills: [],
-        experience: "",
-        email: "",
-        phone: "",
-        password: "",
-        confirmPassword: "",
-        role: "",
-      });
     }
   };
+
   return (
     
     <div className="font-[sans-serif] w-full bg-gray-800 min-h-screen flex flex-col">
@@ -314,8 +272,8 @@ const SignUp = () => {
                     placeholder="Enter JobSeeker name"
                     required
                   />
-                  {errors.hrName && (
-                    <p className="text-red-500 text-xs mt-1">{errors.hrName}</p>
+                  {errors.SeekerName && (
+                    <p className="text-red-500 text-xs mt-1">{errors.SeekerName}</p>
                   )}
                 </div>
                 <div>
