@@ -15,6 +15,7 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const token = localStorage.getItem("auth-token");
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -38,13 +39,18 @@ const UserProfile = () => {
     experience: "",
   });
 
-  const id = "67bd681b916e3979a3e12d8e"; // User ID for fetching profile data
+  // const id = "67bd681b916e3979a3e12d8e"; // User ID for fetching profile data
+
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:3000/user/profile/${id}`);
+        const response = await axios.get(`http://localhost:3000/user/profile`,{
+          headers:{
+            "authorization-user": `Bearer ${token}`
+          }
+        });
         setUser(response.data);
         setFormData(response.data);
         setSelectedSkills(response.data.skills);
@@ -57,7 +63,7 @@ const UserProfile = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [token]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -111,7 +117,11 @@ const UserProfile = () => {
     dataSend.append('resume', formData.resume); // This should be a file object
   
     try {
-      const response = await axios.put(`http://localhost:3000/user/upProfile/${id}`, dataSend);
+      const response = await axios.put(`http://localhost:3000/user/upProfile`, dataSend,{
+        headers: {
+          "authorization-user": `Bearer ${token}`
+          },
+      });
       setUser(response.data);
       setIsEditing(false);
     } catch (err) {
