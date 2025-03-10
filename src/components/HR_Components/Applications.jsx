@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+
 const Applications = () => {
   const { jobId } = useParams(); // Get jobId from route
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedApplication, setSelectedApplication] = useState(); // Track selected application
+  const [selectedApplication, setSelectedApplication] = useState(null); // Track selected application
 
   const [jobTitle, setJobTitle] = useState(""); // Track job title
   const [phonenumber, setPhonenumber] = useState(""); // Track user
@@ -20,20 +21,22 @@ const Applications = () => {
         "selectedApplication",
         JSON.stringify(selectedApplication)
       );
+      setUsername(selectedApplication.user.name);
+      setPhonenumber(selectedApplication.user.phoneNumber);
+      setEducation(selectedApplication.user.education);
+      setEmail(selectedApplication.user.email);
     }
   }, [selectedApplication]);
+
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3000/hr/applications/${jobId}`
         );
+        // console.log(response.data);
         setApplications(response.data.applications);
         setJobTitle(response.data.jobTitle); // Set job title
-        setUsername(response.data.applications[0].user.name);
-        setPhonenumber(response.data.applications[0].user.phoneNumber);
-        setEducation(response.data.applications[0].user.education);
-        setEmail(response.data.applications[0].user.email);
       } catch (error) {
         console.error("Error fetching applications:", error);
         setError("Failed to load applications. Please try again.");
@@ -44,8 +47,10 @@ const Applications = () => {
 
     fetchApplications();
   }, [jobId]);
+
   if (loading) return <p className="text-gray-500">Loading applications...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
+
   return (
     <div className="p-6 w-full flex flex-col min-h-screen">
       <h1 className="text-2xl font-bold mb-4">Application Title: {jobTitle}</h1>
@@ -113,8 +118,8 @@ const Applications = () => {
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       {selectedApplication.appliedAt
                         ? new Date(
-                            selectedApplication.appliedAt
-                          ).toLocaleDateString()
+                          selectedApplication.appliedAt
+                        ).toLocaleDateString()
                         : "N/A"}
                     </dd>
                   </div>
@@ -174,14 +179,14 @@ const Applications = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
           {applications.map((application) => (
             <div
-              key={application._id}
+              key={application?._id}
               className="rounded-2xl shadow-lg p-4 bg-white w-full md:w-auto"
             >
-              <h2 className="text-xl font-semibold">{username}</h2>
+              <h2 className="text-xl font-semibold">{application.user?.name}</h2>
               <p className="text-gray-600">
-                Experience: {application.experience} years
+                Experience: {application?.experience} years
               </p>
-              <p className="text-gray-600">Education: {education}</p>
+              <p className="text-gray-600">Education: {application.user?.education}</p>
               <button
                 onClick={() => setSelectedApplication(application)}
                 className="mt-4 px-4 py-2 border rounded-lg text-blue-600 hover:bg-blue-100"

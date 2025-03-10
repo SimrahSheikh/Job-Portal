@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import Breadcrumbs from "./Breadcrumbs";
+import Popup from "./Popup";
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -13,6 +14,7 @@ const JobDetails = () => {
   const [experience, setExperience] = useState("");
   const [location, setLocation] = useState("");
   const [coverLetter, setCoverLetter] = useState("");
+  const [status, setStatus] = useState("");
   const cookies = new Cookies();
   const token = cookies.get("user-token") || localStorage.getItem("auth-token");
 
@@ -58,12 +60,14 @@ const JobDetails = () => {
     formData.append("hrId", job.HRId);
 
     try {
-      await axios.post(`http://localhost:3000/user/profile/application/${id}`, formData, {
+      const message = await axios.post(`http://localhost:3000/user/profile/application/${id}`, formData, {
         headers: {
           "authorization-user": 'Bearer ' + token,
           "Content-Type": "multipart/form-data",
         }
       });
+      // console.log(message.data.status);
+      setStatus(message.data.status);
     } catch (error) {
       console.error(error);
       // alert("An error occurred while submitting your application");
@@ -82,8 +86,11 @@ const JobDetails = () => {
     return <div className="text-center text-gray-500 mt-10 text-lg">Job not found</div>;
   }
 
-  return (
+  return (<>
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
+    {<div className="max-w-3xl top-0 left-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+      <Popup message={"Submitted Successfully"} status={status} />
+    </div>}
       {/* Breadcrumbs */}
       <Breadcrumbs jobTitle={job.Title} />
 
@@ -166,6 +173,7 @@ const JobDetails = () => {
         </form>
       </div>
     </div>
+  </>
   );
 };
 
