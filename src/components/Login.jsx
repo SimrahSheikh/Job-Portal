@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
@@ -7,7 +7,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const [role, setRole] = useState(""); // 🆕 Track login role
 
   const handleChange = (e) => {
@@ -28,13 +28,16 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://7b14lbqm-3000.inc1.devtunnels.ms/auth/signin",
+        "http://localhost:3000/auth/signin",
         {
           ...formData,
           role, // 🆕 Send role to backend
         }
       );
-      console.log(response.data.token);
+      // console.log(response.data.token);
+      localStorage.setItem("auth-token", response.data.token);
+      localStorage.setItem("role", response.data.role);
+      navigate("/user/jobs");
     } catch (error) {
       console.error("Login Failed", error);
     }
