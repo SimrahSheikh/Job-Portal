@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import DownloadExcel from "./DownloadExcel";
 
 const Applications = () => {
   const { jobId } = useParams(); // Get jobId from route
@@ -31,8 +32,17 @@ const Applications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
+        // const response = await axios.get(
+        //   `http://localhost:3000/hr/applications/${jobId}`
+        // );
+        const token = localStorage.getItem("hrToken"); // Retrieve HR token
         const response = await axios.get(
-          `http://localhost:3000/hr/applications/${jobId}`
+          `http://localhost:3000/hr/applications/${jobId}`,
+          {
+            headers: {
+              "authorization-hr": `Bearer ${token}`, // Send HR token
+            },
+          }
         );
         // console.log(response.data);
         setApplications(response.data.applications);
@@ -53,7 +63,20 @@ const Applications = () => {
 
   return (
     <div className="p-6 w-full flex flex-col min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Application Title: {jobTitle}</h1>
+      {/* <h1 className="text-2xl font-bold mb-4">Application Title: {jobTitle}</h1> */}
+
+      {/* Show DownloadExcel button ONLY when the list of applicants is visible */}
+      {/* {!selectedApplication && (
+        <DownloadExcel applications={applications} jobTitle={jobTitle} />
+      )} */}
+
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Application Title: {jobTitle}</h1>
+
+        {!selectedApplication && (
+          <DownloadExcel applications={applications} jobTitle={jobTitle} />
+        )}
+      </div>
 
       {selectedApplication ? (
         <div className="flex-grow flex justify-center items-center w-full">
@@ -118,8 +141,8 @@ const Applications = () => {
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       {selectedApplication.appliedAt
                         ? new Date(
-                          selectedApplication.appliedAt
-                        ).toLocaleDateString()
+                            selectedApplication.appliedAt
+                          ).toLocaleDateString()
                         : "N/A"}
                     </dd>
                   </div>
@@ -167,7 +190,7 @@ const Applications = () => {
               <div className="px-4 py-4 flex justify-center">
                 <button
                   onClick={() => setSelectedApplication(null)}
-                  className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                  className="px-6 py-2 bg-blue-300 text-white rounded-lg hover:bg-blue-500"
                 >
                   Back to List
                 </button>
@@ -182,11 +205,15 @@ const Applications = () => {
               key={application?._id}
               className="rounded-2xl shadow-lg p-4 bg-white w-full md:w-auto"
             >
-              <h2 className="text-xl font-semibold">{application.user?.name}</h2>
+              <h2 className="text-xl font-semibold">
+                {application.user?.name}
+              </h2>
               <p className="text-gray-600">
                 Experience: {application?.experience} years
               </p>
-              <p className="text-gray-600">Education: {application.user?.education}</p>
+              <p className="text-gray-600">
+                Education: {application.user?.education}
+              </p>
               <button
                 onClick={() => setSelectedApplication(application)}
                 className="mt-4 px-4 py-2 border rounded-lg text-blue-600 hover:bg-blue-100"
