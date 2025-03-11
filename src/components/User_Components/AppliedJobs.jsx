@@ -18,7 +18,8 @@ const AppliedJobs = () => {
             "authorization-user": 'Bearer ' + token,
           },
         });
-        setAppliedJobs(response.data);
+        
+        setAppliedJobs(response.data.appliedJobs);
         // console.log(response.data);
         setLoading(false);
       } catch (err) {
