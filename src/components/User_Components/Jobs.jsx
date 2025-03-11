@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import JobCards from "./JobCards";
 import axios from "axios";
+import JobPageLoading from "../Loading/JobPageLoading";
 
 export default function JobList() {
   const [jobs, setJobs] = useState([]);
@@ -25,7 +26,7 @@ export default function JobList() {
   }, []);
 
   if (loading) {
-    return <p className="text-center">Loading...</p>;
+    return <JobPageLoading />;
   }
 
   if (error) {
