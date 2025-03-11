@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import StatusCard from '../../assets/statusCard.jsx';
+import JobPageLoading from "../Loading/JobPageLoading";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -32,7 +33,9 @@ const AppliedJobs = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center">Loading...</p>;
+    // return <p className="text-center">Loading...</p>;
+    return <JobPageLoading />;
+
   }
 
   if (error) {
@@ -40,8 +43,8 @@ const AppliedJobs = () => {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Applied Jobs</h2>
+    <div className="max-w-7xl mx-auto p-6">
+      <h2 className="text-3xl font-bold text-center mb-8">Applied Jobs</h2>
       {appliedJobs.length === 0 ? (
         <p className="text-center">No applied jobs found.</p>
       ) : (
