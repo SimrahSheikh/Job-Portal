@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LogOut, Briefcase, FileText, PlusCircle } from "lucide-react";
+import { LogOut, Briefcase, FileText, PlusCircle, Home } from "lucide-react";
 
 const NavBar = () => {
   const location = useLocation();
@@ -18,6 +18,7 @@ const handleLogout = () => {}
       <nav className="flex-1">
         <ul className="space-y-2">
 
+        <NavItem icon={<Home size={20} />} text="Home" link="/hr/home"  currentPath={location.pathname}/>
           <NavItem icon={<PlusCircle size={20} />} text="Post New Job" link="/hr/postjob"  currentPath={location.pathname}/>
           <NavItem icon={<Briefcase size={20} />} text="Posted Jobs" link="/hr/postedjobs"  currentPath={location.pathname}/>
           <NavItem icon={<FileText size={20} />} text="Profile" link="/hr/profile"  currentPath={location.pathname}/>
