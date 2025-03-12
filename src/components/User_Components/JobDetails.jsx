@@ -23,7 +23,8 @@ const JobDetails = () => {
     const fetchJobDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/hr/getjobsById/${id}`);
-        setJob(response.data);
+        // console.log(response.data[0].Title)
+        setJob(response.data[0]);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -114,8 +115,8 @@ const JobDetails = () => {
         </div>
 
         <div className="bg-gray-100 p-5 rounded-lg shadow-sm mb-6">
-          <p className="text-lg font-semibold text-gray-800">Salary: {job.Salary.toLocaleString()} per annum</p>
-          <p className="text-gray-600">Location: {job.Location.join(", ")}</p>
+          <p className="text-lg font-semibold text-gray-800">Salary: {job.Salary} per annum</p>
+          <p className="text-gray-600">Location: {job.Location}</p>
         </div>
 
         <p className="text-gray-700 leading-relaxed mb-6">{job.JobDescription}</p>
@@ -163,7 +164,7 @@ const JobDetails = () => {
               <label className="block text-gray-700 font-medium mb-1">Preferred Location</label>
               <select name="location" value={location} onChange={handleLocationChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-gray-400 focus:outline-none">
                 <option value="">Select Location</option>
-                {job.Location.map((loc, index) => (
+                {job.Location?.map((loc, index) => (
                   <option key={index} value={loc}>{loc}</option>
                 ))}
               </select>

@@ -6,8 +6,7 @@ import JobPageLoading from "../Loading/JobPageLoading";
 export default function JobList() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const token = localStorage.getItem("auth-token");
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     const fetchData = async () => {
