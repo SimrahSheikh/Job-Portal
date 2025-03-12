@@ -30,7 +30,7 @@ export const postJob = createAsyncThunk(
 
 // Slice
 const jobSlice = createSlice({
-  name: "jobs",
+  name: "hrJobs",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
