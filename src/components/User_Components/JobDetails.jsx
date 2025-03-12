@@ -55,6 +55,21 @@ const JobDetails = () => {
     setCoverLetter(event.target.value);
   };
 
+  const calculateTimeAgo = (timePosted) => {
+    const now = new Date();
+    const postedDate = new Date(timePosted);
+    const diffTime = Math.abs(now - postedDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 30) {
+      return `${diffDays} days ago`;
+    } else {
+      const diffMonths = Math.floor(diffDays / 30);
+      return `${diffMonths} months ago`;
+    }
+  };
+
+
   const submitApplication = async (event) => {
     event.preventDefault();
     if (!selectedFile) {
@@ -71,7 +86,7 @@ const JobDetails = () => {
     formData.append("coverLetter", coverLetter);
     formData.append("hrId", job.HRId);
     formData.append("skills", JSON.stringify(selectedSkills));
-    console.log("formdata" , formData);
+    console.log("formdata", formData);
 
 
 
@@ -131,12 +146,12 @@ const JobDetails = () => {
 
         <div className="mb-6">
           <h1 className="text-4xl font-bold text-gray-900">{job.Title}</h1>
-          <p className="text-gray-500 text-sm mt-1">{job.CompanyName} · {new Date(job.createdAt).toLocaleDateString()}</p>
+          <p className="text-gray-500 text-sm mt-1">{job.hrDetails.companyName} · {calculateTimeAgo(new Date(job.createdAt).toLocaleDateString())}</p>
         </div>
 
         <div className="bg-gray-100 p-5 rounded-lg shadow-sm mb-6">
-          <p className="text-lg font-semibold text-gray-800">Salary: {job.Salary} per annum</p>
-          <p className="text-gray-600">Location: {job.Location}</p>
+          <p className="text-lg font-semibold text-gray-800">Salary: {job.Salary.toLocaleString()} per annum</p>
+          <p className="text-gray-600">Location: {job.Location.join(", ")}</p>
         </div>
 
         <p className="text-gray-700 leading-relaxed mb-6">{job.JobDescription}</p>
@@ -177,7 +192,7 @@ const JobDetails = () => {
               <select
                 name="SkillsReq"
                 onChange={handleSkillChange}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
               >
                 <option value="">Select a Skill</option>
                 {Skills.map((skill, index) => (
