@@ -37,7 +37,8 @@ const Login = () => {
       // console.log(response.data.token);
       localStorage.setItem("auth-token", response.data.token);
       localStorage.setItem("role", response.data.role);
-      navigate("/user/jobs");
+      if(role=="hr") navigate("/hr");
+      else navigate("/user/jobs");
     } catch (error) {
       console.error("Login Failed", error);
     }
