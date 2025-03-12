@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import authReducer from "./slice/AuthSlice"
-
+import jobReducer from "./slice/HrSlice/jobSlice"
 // // Example reducer for user authentication
 // const authReducer = (state = { isAuthenticated: false }, action) => {
 //   switch (action.type) {
@@ -30,6 +30,7 @@ import authReducer from "./slice/AuthSlice"
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  jobs: jobReducer,
 });
 
 export default rootReducer;
