@@ -27,7 +27,7 @@ const SavedJobs = () => {
     };
 
     fetchData();
-  }, [token]);
+  }, [savedJobs]);
 
   if (loading) {
     return <JobPageLoading />;
