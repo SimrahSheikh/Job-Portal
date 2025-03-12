@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Skills } from "../../../data/skills";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import Breadcrumbs from "./Breadcrumbs";
@@ -16,6 +17,8 @@ const JobDetails = () => {
   const [location, setLocation] = useState("");
   const [coverLetter, setCoverLetter] = useState("");
   const [status, setStatus] = useState("");
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
   const cookies = new Cookies();
   const token = cookies.get("user-token") || localStorage.getItem("auth-token");
 
@@ -67,6 +70,11 @@ const JobDetails = () => {
     formData.append("location", JSON.stringify([location]));
     formData.append("coverLetter", coverLetter);
     formData.append("hrId", job.HRId);
+    formData.append("skills", JSON.stringify(selectedSkills));
+    console.log("formdata" , formData);
+
+
+
 
     try {
       const message = await axios.post(`http://localhost:3000/user/profile/application/${id}`, formData, {
@@ -82,7 +90,19 @@ const JobDetails = () => {
       setStatus(400);
     }
   };
-
+  const handleSkillChange = (e) => {
+    const skill = e.target.value;
+    if (skill && !selectedSkills.includes(skill)) {
+      const updatedSkills = [...selectedSkills, skill];
+      setSelectedSkills(updatedSkills);
+      // setFields((prev) => ({ ...prev, SkillsReq: updatedSkills }));
+    }
+  };
+  const removeSkill = (skill) => {
+    const updatedSkills = selectedSkills.filter((s) => s !== skill);
+    setSelectedSkills(updatedSkills);
+    // setFields((prev) => ({ ...prev, SkillsReq: updatedSkills }));
+  };
   if (loading) {
     return <p className="text-center">Loading...</p>;
   }
@@ -149,6 +169,42 @@ const JobDetails = () => {
                 <p className="mt-2 text-gray-700">{selectedFile.name}</p>
               )}
               {resumeError && <p className="text-base font-semibold text-red-500">Resume is must </p>}
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Skills
+              </label>
+              <select
+                name="SkillsReq"
+                onChange={handleSkillChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select a Skill</option>
+                {Skills.map((skill, index) => (
+                  <option key={index} value={skill}>
+                    {skill}
+                  </option>
+                ))}
+              </select>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {selectedSkills.map((skill, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center bg-gray-200 text-slate-950 px-3 py-1 rounded-full"
+                  >
+                    {skill}
+                    <button
+                      onClick={() => removeSkill(skill)}
+                      className="ml-2 text-gray-400 font-bold"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {/* {errors.SkillsReq && (
+                          <p className="text-red-500 text-sm">{errors.SkillsReq}</p>
+                        )} */}
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-1">Experience</label>
