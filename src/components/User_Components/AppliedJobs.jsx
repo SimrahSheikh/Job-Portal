@@ -1,41 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import StatusCard from '../../assets/statusCard.jsx';
 import JobPageLoading from "../Loading/JobPageLoading";
-import axios from 'axios';
-import Cookies from 'universal-cookie';
+import { UserAppliedJob } from '../../store/slice/userSlice/appliedJobSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AppliedJobs = () => {
-  const [appliedJobs, setAppliedJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const cookies = new Cookies();
-  const token = cookies.get("user-token") || localStorage.getItem("auth-token");
+
+  const dispatch = useDispatch();
+  const { appliedJobs , loading, error } = useSelector((state) => state.appliedJobs);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/user/profile/appliedjobs/myjob', {
-          headers: {
-            "authorization-user": 'Bearer ' + token,
-          },
-        });
-        
-        setAppliedJobs(response.data.appliedJobs);
-        // console.log(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        setError(err.message);
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
+    dispatch(UserAppliedJob());
+  }, [dispatch]);
 
   if (loading) {
-    // return <p className="text-center">Loading...</p>;
     return <JobPageLoading />;
-
   }
 
   if (error) {

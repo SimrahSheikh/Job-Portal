@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import authReducer from "./slice/AuthSlice"
+import appliedJobsReducer from "./slice/userSlice/appliedJobSlice"
 
 // // Example reducer for user authentication
 // const authReducer = (state = { isAuthenticated: false }, action) => {
@@ -30,6 +31,9 @@ import authReducer from "./slice/AuthSlice"
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  appliedJobs :appliedJobsReducer,
+
+
 });
 
 export default rootReducer;
