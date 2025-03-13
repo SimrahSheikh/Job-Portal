@@ -108,9 +108,9 @@ const UserProfile = () => {
     dataSend.append('name', formData.name);
     dataSend.append('email', formData.email);
     dataSend.append('phone', formData.phone);
-    if (formData.password) {
-      dataSend.append('password', formData.password);  // Only send if password is updated
-    }
+    // if (formData.password) {
+    //   dataSend.append('password', formData.password);  // Only send if password is updated
+    // }
     dataSend.append('experience', formData.experience);
     dataSend.append('skills', selectedSkills.join(","));
     dataSend.append('profilePic', formData.profilePic); // This should be a file object
