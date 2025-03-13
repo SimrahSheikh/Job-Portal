@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Skills } from "../../../data/skills";
 import { Cities } from "../../assets/cities";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { postJob } from "../../store/slice/HrSlice/jobSlice";
 
 const initialFields = {
   CompanyName: "",
@@ -21,6 +22,21 @@ const PostJob = () => {
   const [errors, setErrors] = useState({});
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.jobs);
+
+  useEffect(() => {
+    if (loading) {
+      alert("Loading...");
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (error) {
+      console.error("Error posting job:", error);
+      alert(error.response?.data?.message || "An error occurred while posting the job.");
+    }
+  }, [error]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -95,14 +111,13 @@ const PostJob = () => {
     } else if (["Salary", "Vacancy", "Experience"].includes(name)) {
       if (isNaN(value) || Number(value) < 0) {
         tempErrors[name] = `${name} must be a positive number`;
-      } 
-    else {
-      delete tempErrors[name];
+      } else {
+        delete tempErrors[name];
+      }
     }
 
     setErrors(tempErrors);
   };
-  }
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -130,30 +145,19 @@ const PostJob = () => {
 
     const token = localStorage.getItem("auth-token");
     console.log(token);
-    // const token = req.headers.authorization?.split(" ")[1];
 
     const jobData = {
       ...fields,
       SkillsReq: selectedSkills,
       Location: selectedCities,
     };
+    console.log(jobData);
 
-    try {
-      await axios.post("http://localhost:3000/hr/postjob", jobData, {
-        headers: {
-          "Content-Type": "application/json",
-          'authorization-user': `Bearer ${token}`,
-        },
-      });
-
-      alert("Job posted successfully!");
-      setFields(initialFields);
-      setSelectedSkills([]);
-      setSelectedCities([]);
-    } catch (error) {
-      console.error("Error posting job:", error);
-      alert(error.response?.data?.message || "An error occurred while posting the job.");
-    }
+    dispatch(postJob(jobData));
+    alert("Job posted successfully!");
+    setFields(initialFields);
+    setSelectedSkills([]);
+    setSelectedCities([]);
   };
 
   return (
