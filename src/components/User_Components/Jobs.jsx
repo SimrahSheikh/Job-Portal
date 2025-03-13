@@ -13,11 +13,6 @@ export default function JobList() {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  // Debugging logs
-  console.log("Jobs:", jobs);
-  console.log("Loading:", loading);
-  console.log("Error:", error);
-
   if (loading) {
     return <JobPageLoading />;
   }
