@@ -8,7 +8,6 @@ const initialState = {
   loading: false,
   error: null,
 };
-
 // Async Thunk for posting job
 export const postJob = createAsyncThunk(
   "jobs/postJob",
