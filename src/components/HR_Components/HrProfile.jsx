@@ -85,6 +85,9 @@ const AdminComponent = () => {
     if (formData.password) {
       dataSend.append("password", formData.password); // Only send if password is updated
     }
+    // if (formData.password.trim() !== "") {
+    //   dataSend.append("password", formData.password);
+    // }
     dataSend.append("companyName", formData.companyName);
     dataSend.append("profilePic", formData.profilePic); // This should be a file object
 
@@ -177,14 +180,14 @@ const AdminComponent = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {["name", "email", "password", "phoneNumber", "companyName"].map(
+        {["name", "email", "phoneNumber", "companyName"].map(
           (field) => (
             <div key={field}>
               <label className="block text-sm font-medium text-gray-700 capitalize">
                 {field}
               </label>
               <input
-                type={field === "password" ? "password" : "text"}
+                type={field}
                 name={field}
                 value={formData[field]}
                 onChange={handleChange}
