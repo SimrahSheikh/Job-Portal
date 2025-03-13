@@ -12,12 +12,10 @@ export default function JobList() {
   const observer = useRef();
 
   const lastJobElementRef = useCallback(node => {
-    // console.log("Last Job Element Ref");
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore) {
-        // console.log("Visible");
         setPage(prevPage => prevPage + 1);
       }
     });
@@ -59,10 +57,9 @@ export default function JobList() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {jobs.map((job, index) => {
           if (jobs.length === index + 1) {
-            return (<>
-              <div ref={lastJobElementRef}>
+            return (
+              <div ref={lastJobElementRef} key={job._id}>
                 <JobCards
-                  key={job._id}
                   id={job._id}
                   logo={job.CompanyName.charAt(0)} // Assuming logo is the first letter of the company name
                   company={job.CompanyName}
@@ -72,11 +69,11 @@ export default function JobList() {
                   level={job.Experience}
                   salary={job.Salary}
                   location={Array.isArray(job.Location) ? job.Location.join(", ") : job.Location}
-                /></div></>
+                />
+              </div>
             );
           } else {
-            return (<>
-              {/* <div>{index+2}</div > */}
+            return (
               <JobCards
                 key={job._id}
                 id={job._id}
@@ -88,12 +85,12 @@ export default function JobList() {
                 level={job.Experience}
                 salary={job.Salary}
                 location={Array.isArray(job.Location) ? job.Location.join(", ") : job.Location}
-              /></>
+              />
             );
           }
         })}
       </div>
       {loading && <JobPageLoading />}
-    </div >
+    </div>
   );
 }
