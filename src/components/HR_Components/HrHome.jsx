@@ -10,6 +10,7 @@ export const HrHome = () => {
   const [monthsApplications, setMonthsApplications] = React.useState([]);
   const [monthsHireStatus, setMonthsHireStatus] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [hrData, setHrData] = React.useState();
   const token = localStorage.getItem("auth-token");
 
   useEffect(() => {
@@ -17,19 +18,20 @@ export const HrHome = () => {
       try {
         const response = await axios.get('http://localhost:3000/hr/hr-dashboard', {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'authorization-user': `Bearer ${token}`,
           }
         });
-
+        // console.log("Response data is:", response.data);
         const data = response.data;
 
         // Log the response data to see the structure
-        console.log("Response data:", data);
+        // console.log("Response data is:", data);
 
         if (data && data.monthsApplications && data.monthsHireStatus) {
           setLoading(false);
           setMonthsApplications(data.monthsApplications);
           setMonthsHireStatus(data.monthsHireStatus);
+          setHrData(data.hrNames);
         } else {
           throw new Error("The data structure is not as expected");
         }
@@ -45,7 +47,7 @@ export const HrHome = () => {
   // Prepare data for the chart
   const data = {
     labels: [
-      "January", "February", "March", "April", "May", "June", 
+      "January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ], // All months dynamically shown
     datasets: [
@@ -83,10 +85,11 @@ export const HrHome = () => {
       },
     },
   };
-
+  // console.log("'HR' data:", hrData);
+  //  console.log("Name", data.hrData);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6">Welcome Home !!</h1>
+      <h1 className="text-3xl font-bold mb-6">Welcome {hrData ? hrData : "HR"} !!</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 w-full max-w-6xl">
         <div className="bg-blue-500 p-6 rounded-2xl shadow-lg flex items-center justify-between text-white">
