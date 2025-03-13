@@ -28,8 +28,8 @@ const AppliedJobs = () => {
         <p className="text-center">No applied jobs found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {appliedJobs.map((job) => (
-            <StatusCard key={job.id} job={job} />
+          {appliedJobs.map((job, index) => (
+            <StatusCard key={index} job={job} />
           ))}
         </div>
       )}
