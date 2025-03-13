@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Skills } from "../../../data/skills";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import Breadcrumbs from "./Breadcrumbs";
@@ -16,6 +17,8 @@ const JobDetails = () => {
   const [location, setLocation] = useState("");
   const [coverLetter, setCoverLetter] = useState("");
   const [status, setStatus] = useState("");
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
   const cookies = new Cookies();
   const token = cookies.get("user-token") || localStorage.getItem("auth-token");
 
@@ -52,6 +55,21 @@ const JobDetails = () => {
     setCoverLetter(event.target.value);
   };
 
+  const calculateTimeAgo = (timePosted) => {
+    const now = new Date();
+    const postedDate = new Date(timePosted);
+    const diffTime = Math.abs(now - postedDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 30) {
+      return `${diffDays} days ago`;
+    } else {
+      const diffMonths = Math.floor(diffDays / 30);
+      return `${diffMonths} months ago`;
+    }
+  };
+
+
   const submitApplication = async (event) => {
     event.preventDefault();
     if (!selectedFile) {
@@ -67,6 +85,11 @@ const JobDetails = () => {
     formData.append("location", JSON.stringify([location]));
     formData.append("coverLetter", coverLetter);
     formData.append("hrId", job.HRId);
+    formData.append("skills", JSON.stringify(selectedSkills));
+    console.log("formdata", formData);
+
+
+
 
     try {
       const message = await axios.post(`http://localhost:3000/user/profile/application/${id}`, formData, {
@@ -82,7 +105,19 @@ const JobDetails = () => {
       setStatus(400);
     }
   };
-
+  const handleSkillChange = (e) => {
+    const skill = e.target.value;
+    if (skill && !selectedSkills.includes(skill)) {
+      const updatedSkills = [...selectedSkills, skill];
+      setSelectedSkills(updatedSkills);
+      // setFields((prev) => ({ ...prev, SkillsReq: updatedSkills }));
+    }
+  };
+  const removeSkill = (skill) => {
+    const updatedSkills = selectedSkills.filter((s) => s !== skill);
+    setSelectedSkills(updatedSkills);
+    // setFields((prev) => ({ ...prev, SkillsReq: updatedSkills }));
+  };
   if (loading) {
     return <p className="text-center">Loading...</p>;
   }
@@ -111,12 +146,12 @@ const JobDetails = () => {
 
         <div className="mb-6">
           <h1 className="text-4xl font-bold text-gray-900">{job.Title}</h1>
-          <p className="text-gray-500 text-sm mt-1">{job.CompanyName} · {new Date(job.createdAt).toLocaleDateString()}</p>
+          <p className="text-gray-500 text-sm mt-1">{job.hrDetails.companyName} · {calculateTimeAgo(new Date(job.createdAt).toLocaleDateString())}</p>
         </div>
 
         <div className="bg-gray-100 p-5 rounded-lg shadow-sm mb-6">
-          <p className="text-lg font-semibold text-gray-800">Salary: {job.Salary} per annum</p>
-          <p className="text-gray-600">Location: {job.Location}</p>
+          <p className="text-lg font-semibold text-gray-800">Salary: {job.Salary.toLocaleString()} per annum</p>
+          <p className="text-gray-600">Location: {Array.isArray(job.Location) ? job.Location.join(", ") : job.Location}</p>
         </div>
 
         <p className="text-gray-700 leading-relaxed mb-6">{job.JobDescription}</p>
@@ -150,6 +185,42 @@ const JobDetails = () => {
               )}
               {resumeError && <p className="text-base font-semibold text-red-500">Resume is must </p>}
             </div>
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Skills
+              </label>
+              <select
+                name="SkillsReq"
+                onChange={handleSkillChange}
+                className="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+              >
+                <option value="">Select a Skill</option>
+                {Skills.map((skill, index) => (
+                  <option key={index} value={skill}>
+                    {skill}
+                  </option>
+                ))}
+              </select>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {selectedSkills.map((skill, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center bg-gray-200 text-slate-950 px-3 py-1 rounded-full"
+                  >
+                    {skill}
+                    <button
+                      onClick={() => removeSkill(skill)}
+                      className="ml-2 text-gray-400 font-bold"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {/* {errors.SkillsReq && (
+                          <p className="text-red-500 text-sm">{errors.SkillsReq}</p>
+                        )} */}
+            </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-1">Experience</label>
               <select name="experience" value={experience} onChange={handleExperienceChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-gray-400 focus:outline-none">
@@ -164,9 +235,9 @@ const JobDetails = () => {
               <label className="block text-gray-700 font-medium mb-1">Preferred Location</label>
               <select name="location" value={location} onChange={handleLocationChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-gray-400 focus:outline-none">
                 <option value="">Select Location</option>
-                {job.Location?.map((loc, index) => (
+                {Array.isArray(job.Location) ? job.Location.map((loc, index) => (
                   <option key={index} value={loc}>{loc}</option>
-                ))}
+                )) : <option value={job.Location}>{job.Location}</option>}
               </select>
             </div>
             <div className="mb-4">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import JobCards from "./JobCards";
 import axios from "axios";
 import JobPageLoading from "../Loading/JobPageLoading";
@@ -6,13 +6,32 @@ import JobPageLoading from "../Loading/JobPageLoading";
 export default function JobList() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef();
+
+  const lastJobElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPage(prevPage => prevPage + 1);
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, hasMore]);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get("http://localhost:3000/hr/getjobs");
-        setJobs(response.data);
+        const response = await axios.get(`http://localhost:3000/hr/getjobs?page=${page}&limit=6`);
+        setJobs(prevJobs => {
+          const newJobs = response.data.filter(job => !prevJobs.some(prevJob => prevJob._id === job._id));
+          return [...prevJobs, ...newJobs];
+        });
+        setHasMore(response.data.length > 0);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -22,9 +41,9 @@ export default function JobList() {
     };
 
     fetchData();
-  }, []);
+  }, [page]);
 
-  if (loading) {
+  if (loading && page === 1) {
     return <JobPageLoading />;
   }
 
@@ -36,21 +55,42 @@ export default function JobList() {
     <div className="max-w-7xl mx-auto p-6">
       <h2 className="text-3xl font-bold text-center mb-8">Available Jobs</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {jobs.map((job) => (
-          <JobCards
-            key={job._id}
-            id={job._id}
-            logo={job.CompanyName.charAt(0)} // Assuming logo is the first letter of the company name
-            company={job.CompanyName}
-            timePosted={new Date(job.createdAt).toLocaleDateString()}
-            title={job.Title}
-            type={job.JobType}
-            level={job.Experience}
-            salary={job.Salary}
-            location={Array.isArray(job.Location) ? job.Location.join(", ") : job.Location}
-          />
-        ))}
+        {jobs.map((job, index) => {
+          if (jobs.length === index + 1) {
+            return (
+              <div ref={lastJobElementRef} key={job._id}>
+                <JobCards
+                  id={job._id}
+                  logo={job.CompanyName.charAt(0)} // Assuming logo is the first letter of the company name
+                  company={job.CompanyName}
+                  timePosted={new Date(job.createdAt).toLocaleDateString()}
+                  title={job.Title}
+                  type={job.JobType}
+                  level={job.Experience}
+                  salary={job.Salary}
+                  location={Array.isArray(job.Location) ? job.Location.join(", ") : job.Location}
+                />
+              </div>
+            );
+          } else {
+            return (
+              <JobCards
+                key={job._id}
+                id={job._id}
+                logo={job.CompanyName.charAt(0)} // Assuming logo is the first letter of the company name
+                company={job.CompanyName}
+                timePosted={new Date(job.createdAt).toLocaleDateString()}
+                title={job.Title}
+                type={job.JobType}
+                level={job.Experience}
+                salary={job.Salary}
+                location={Array.isArray(job.Location) ? job.Location.join(", ") : job.Location}
+              />
+            );
+          }
+        })}
       </div>
+      {loading && <JobPageLoading />}
     </div>
   );
 }
