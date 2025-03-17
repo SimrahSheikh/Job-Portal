@@ -7,8 +7,9 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState({}); // 🆕 Track errors
   const [role, setRole] = useState(""); // 🆕 Track login role
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,6 +17,28 @@ const Login = () => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    // Email Validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    // Password Validation (Min 6, Max 8, At least 1 uppercase, 1 lowercase, 1 number, 1 special character)
+    if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/.test(
+        formData.password
+      )
+    ) {
+      newErrors.password =
+        "Password must be 6-8 characters long and contain at least one uppercase, one lowercase, one number, and one special character.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
@@ -26,19 +49,16 @@ const Login = () => {
       return;
     }
 
+    if (!validateForm()) return; 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/auth/signin",
-        {
-          ...formData,
-          role, // 🆕 Send role to backend
-        }
-      );
-      // console.log(response.data.token);
+      const response = await axios.post("http://localhost:3000/auth/signin", {
+        ...formData,
+        role,
+      });
+
       localStorage.setItem("auth-token", response.data.token);
       localStorage.setItem("role", response.data.role);
-      if(role=="hr") navigate("/hr");
-      else navigate("/user/jobs");
+      navigate(role === "hr" ? "/hr" : "/user/jobs");
     } catch (error) {
       console.error("Login Failed", error);
     }
@@ -64,6 +84,7 @@ const Login = () => {
                 placeholder="Email"
                 required
               />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
             <div>
               <input
@@ -75,6 +96,7 @@ const Login = () => {
                 placeholder="Password"
                 required
               />
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
             </div>
             <div className="flex justify-end">
               <a href="#" className="text-sm text-blue-500 hover:underline">
@@ -84,7 +106,7 @@ const Login = () => {
             {/* HR Login */}
             <button
               type="submit"
-              onClick={() => setRole("hr")} // 🆕 Set role on click
+              onClick={() => setRole("hr")}
               className="w-full text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               LogIn as an HR
@@ -92,7 +114,7 @@ const Login = () => {
             {/* JobSeeker Login */}
             <button
               type="submit"
-              onClick={() => setRole("user")} // 🆕 Set role on click
+              onClick={() => setRole("user")}
               className="w-full text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               LogIn as a JobSeeker

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Skills } from "../../data/skills";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { signupHR, signupUser } from "../store/slice/AuthSlice";
 
 const SignUp = () => {
@@ -36,13 +36,14 @@ const SignUp = () => {
     }
 
     // Password Validation (at least one uppercase, one lowercase, one number, and one special character)
+    // Password Validation (Min 6, Max 8, At least 1 uppercase, 1 lowercase, 1 number, 1 special character)
     if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/.test(
         formData.password
       )
     ) {
       newErrors.password =
-        "Password must contain at least one uppercase, one lowercase, one number, and one special character";
+        "Password must be 6-8 characters long and contain at least one uppercase, one lowercase, one number, and one special character.";
     }
 
     // Confirm Password Validation
@@ -115,13 +116,11 @@ const SignUp = () => {
       } else if (selectedRole === "jobseeker") {
         dispatch(signupUser(userData));
         console.log(userData);
-        
       }
     }
   };
 
   return (
-    
     <div className="font-[sans-serif] w-full bg-gray-800 min-h-screen flex flex-col">
       <div className="text-center bg-gray-900 from-blue-800 to-blue-400 min-h-[180px] sm:p-6 p-4">
         <h4 className="sm:text-3xl text-2xl text-white mt-3">
@@ -273,7 +272,9 @@ const SignUp = () => {
                     required
                   />
                   {errors.SeekerName && (
-                    <p className="text-red-500 text-xs mt-1">{errors.SeekerName}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.SeekerName}
+                    </p>
                   )}
                 </div>
                 <div>
@@ -344,7 +345,6 @@ const SignUp = () => {
           </div>
         </form>
       </div>
-      
     </div>
   );
 };
