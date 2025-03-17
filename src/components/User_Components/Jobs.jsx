@@ -26,7 +26,7 @@ export default function JobList() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:3000/hr/getjobs?page=${page}&limit=6`);
+        const response = await axios.get(`http://localhost:3000/user/getjobs?page=${page}&limit=6`);
         setJobs(prevJobs => {
           const newJobs = response.data.filter(job => !prevJobs.some(prevJob => prevJob._id === job._id));
           return [...prevJobs, ...newJobs];
