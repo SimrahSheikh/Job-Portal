@@ -15,6 +15,8 @@ import SavedJobs from "./components/User_Components/SavedJobs";
 import Profile from "./components/User_Components/Profile";
 import JobDetails from "./components/User_Components/JobDetails";
 import Premium from "./components/Premium";
+import ViewDetail from "./components/HR_Components/ViewDetail";
+
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
             <Route path="/hr/profile" element={<HRProfile />} />
             <Route path="/hr/home" element={<HrHome />} />
             <Route path="applications/:jobId" element={<Applications />} />
+            <Route path="applications/:jobId/:applicationId" element={<ViewDetail />} />
+
 
           </Route>
 
