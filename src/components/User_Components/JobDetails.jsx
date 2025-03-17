@@ -142,7 +142,7 @@ const JobDetails = () => {
       )}
       <div className="max-w-3xl mx-auto p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
         {/* Breadcrumbs */}
-        <Breadcrumbs jobTitle={job.Title} />
+        <Breadcrumbs Title={job.Title} NavLink={"/user/jobs"} Name={"Jobs"} />
 
         <div className="mb-6">
           <h1 className="text-4xl font-bold text-gray-900">{job.Title}</h1>
