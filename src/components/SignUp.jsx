@@ -35,21 +35,20 @@ const SignUp = () => {
       newErrors.phone = "Phone number must be exactly 10 digits";
     }
 
-    // Password Validation (at least one uppercase, one lowercase, one number, and one special character)
-    // Password Validation (Min 6, Max 8, At least 1 uppercase, 1 lowercase, 1 number, 1 special character)
     if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/.test(
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/.test(
         formData.password
       )
     ) {
       newErrors.password =
-        "Password must be 6-8 characters long and contain at least one uppercase, one lowercase, one number, and one special character.";
+        "Password must be 8-12 characters long and contain at least one uppercase, one lowercase, one number, and one special character.";
     }
-
+    
     // Confirm Password Validation
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
+    
 
     // Experience must be greater than 0
     if (
