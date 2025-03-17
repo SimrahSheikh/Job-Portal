@@ -14,6 +14,7 @@ import AppliedJobs from "./components/User_Components/AppliedJobs";
 import SavedJobs from "./components/User_Components/SavedJobs";
 import Profile from "./components/User_Components/Profile";
 import JobDetails from "./components/User_Components/JobDetails";
+import Premium from "./components/Premium";
 
 function App() {
   return (
@@ -23,11 +24,11 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-
+          <Route path="/premium" element={<Premium />} />
           <Route path="/hr" element={<HRLayout />}>
-          <Route index element={<HrHome />} />
+            <Route index element={<HrHome />} />
             <Route path="/hr/postjob" element={<PostJob />} />
-           <Route path="/hr/postedjobs" element={<PostedJobs />} />
+            <Route path="/hr/postedjobs" element={<PostedJobs />} />
             <Route path="/hr/profile" element={<HRProfile />} />
             <Route path="/hr/home" element={<HrHome />} />
             <Route path="applications/:jobId" element={<Applications />} />

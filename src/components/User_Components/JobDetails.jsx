@@ -25,9 +25,14 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/hr/getjobsById/${id}`);
-        // console.log(response.data[0].Title)
-        setJob(response.data[0]);
+        const response = await axios.get(`http://localhost:3000/hr/getjobsById/${id}`, {
+          headers: {
+            "authorization-user": 'Bearer ' + token,
+          }
+        });
+        console.log(response.data)
+        setJob(response.data);
+        setSelectedFile(response.data.resume);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -69,7 +74,6 @@ const JobDetails = () => {
     }
   };
 
-
   const submitApplication = async (event) => {
     event.preventDefault();
     if (!selectedFile) {
@@ -88,9 +92,6 @@ const JobDetails = () => {
     formData.append("skills", JSON.stringify(selectedSkills));
     console.log("formdata", formData);
 
-
-
-
     try {
       const message = await axios.post(`http://localhost:3000/user/profile/application/${id}`, formData, {
         headers: {
@@ -105,19 +106,20 @@ const JobDetails = () => {
       setStatus(400);
     }
   };
+
   const handleSkillChange = (e) => {
     const skill = e.target.value;
     if (skill && !selectedSkills.includes(skill)) {
       const updatedSkills = [...selectedSkills, skill];
       setSelectedSkills(updatedSkills);
-      // setFields((prev) => ({ ...prev, SkillsReq: updatedSkills }));
     }
   };
+
   const removeSkill = (skill) => {
     const updatedSkills = selectedSkills.filter((s) => s !== skill);
     setSelectedSkills(updatedSkills);
-    // setFields((prev) => ({ ...prev, SkillsReq: updatedSkills }));
   };
+
   if (loading) {
     return <p className="text-center">Loading...</p>;
   }
@@ -132,14 +134,12 @@ const JobDetails = () => {
 
   return (
     <>
-      {
-        (status === 200 || status === 400) &&
-        (
-          <Popup
-            message={status === 200 ? "Submitted Successfully" : "Application Not Submitted"}
-            status={status}
-          />
-        )}
+      {(status === 200 || status === 400) && (
+        <Popup
+          message={status === 200 ? "Submitted Successfully" : "Application Not Submitted"}
+          status={status}
+        />
+      )}
       <div className="max-w-3xl mx-auto p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
         {/* Breadcrumbs */}
         <Breadcrumbs jobTitle={job.Title} />
@@ -172,16 +172,13 @@ const JobDetails = () => {
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Apply Now</h2>
           <form onSubmit={submitApplication}>
             <div className="mb-4">
-              <input
-                type="file" id="upload"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+              <input type="file" id="upload" className="hidden" onChange={handleFileChange} />
               <label htmlFor="upload" className={`block font-medium mb-1 cursor-pointer bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 ${resumeError ? 'border-4 border-red-500' : ''}`}>
-                Upload Resume
+                Choose a Resume
               </label>
+              <div className="mt-2 text-lg font-semibold text-gray-700">Selected Resume</div>
               {selectedFile && (
-                <p className="mt-2 text-gray-700">{selectedFile.name}</p>
+                <p className=" text-gray-700">{selectedFile instanceof File ? selectedFile.name : selectedFile}</p>
               )}
               {resumeError && <p className="text-base font-semibold text-red-500">Resume is must </p>}
             </div>
@@ -217,9 +214,6 @@ const JobDetails = () => {
                   </div>
                 ))}
               </div>
-              {/* {errors.SkillsReq && (
-                          <p className="text-red-500 text-sm">{errors.SkillsReq}</p>
-                        )} */}
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-1">Experience</label>
@@ -234,7 +228,7 @@ const JobDetails = () => {
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-1">Preferred Location</label>
               <select name="location" value={location} onChange={handleLocationChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-gray-400 focus:outline-none">
-                <option value="">Select Location</option>
+                <option value="all">Select Location</option>
                 {Array.isArray(job.Location) ? job.Location.map((loc, index) => (
                   <option key={index} value={loc}>{loc}</option>
                 )) : <option value={job.Location}>{job.Location}</option>}
