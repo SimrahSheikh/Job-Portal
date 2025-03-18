@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Skills } from "../../data/skills";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { signupHR, signupUser } from "../store/slice/AuthSlice";
-
+import { useNavigate } from "react-router-dom"; 
 const SignUp = () => {
   const [formData, setFormData] = useState({
     companyName: "",
@@ -21,7 +21,7 @@ const SignUp = () => {
   const [errors, setErrors] = useState({});
   const { loading, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const validateForm = () => {
     let newErrors = {};
 
@@ -35,13 +35,14 @@ const SignUp = () => {
       newErrors.phone = "Phone number must be exactly 10 digits";
     }
 
+    // Password Validation (at least one uppercase, one lowercase, one number, and one special character)
     if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/.test(
         formData.password
       )
     ) {
       newErrors.password =
-        "Password must be 8-12 characters long and contain at least one uppercase, one lowercase, one number, and one special character.";
+        "Password must be 8-12 characters long, contain at least one uppercase, one lowercase, one number, and one special character";
     }
     
     // Confirm Password Validation
@@ -53,10 +54,11 @@ const SignUp = () => {
     // Experience must be greater than 0
     if (
       selectedRole === "jobseeker" &&
-      (!formData.experience || formData.experience <= 0)
+      !/^\d+$/.test(formData.experience) // Ensures only 0 or positive integers
     ) {
-      newErrors.experience = "Experience must be greater than 0";
+      newErrors.experience = "Experience must be 0 or a positive integer";
     }
+    
 
     // HR Name & Skills must be at least 3 characters
     if (selectedRole === "hr" && formData.hrName.length < 3) {
@@ -112,14 +114,20 @@ const SignUp = () => {
       if (selectedRole === "hr") {
         dispatch(signupHR(userData));
         console.log(userData);
+        alert("Signup successful!");
+        navigate("/login");
       } else if (selectedRole === "jobseeker") {
         dispatch(signupUser(userData));
         console.log(userData);
+        alert("Signup successful!");
+        navigate("/login");
+        
       }
     }
   };
 
   return (
+    
     <div className="font-[sans-serif] w-full bg-gray-800 min-h-screen flex flex-col">
       <div className="text-center bg-gray-900 from-blue-800 to-blue-400 min-h-[180px] sm:p-6 p-4">
         <h4 className="sm:text-3xl text-2xl text-white mt-3">
@@ -271,9 +279,7 @@ const SignUp = () => {
                     required
                   />
                   {errors.SeekerName && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.SeekerName}
-                    </p>
+                    <p className="text-red-500 text-xs mt-1">{errors.SeekerName}</p>
                   )}
                 </div>
                 <div>
@@ -344,7 +350,9 @@ const SignUp = () => {
           </div>
         </form>
       </div>
+      
     </div>
+    
   );
 };
 
