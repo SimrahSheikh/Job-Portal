@@ -23,7 +23,7 @@ const PostJob = () => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.jobs);
+  const { loading, error } = useSelector((state) => state.jobs)||{};
 
   useEffect(() => {
     if (loading) {
