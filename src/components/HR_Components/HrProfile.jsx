@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProfilePic from "../../assets/defaultAvatar.png";
+import HrProfileLoading from "../Loading/HrProfileLoading";
 
 const AdminComponent = () => {
   const [formData, setFormData] = useState({
@@ -114,7 +115,7 @@ const AdminComponent = () => {
     }
   };
 
-  if (loading) return <div>Loading... Please wait.</div>;
+  if (loading) return <div><HrProfileLoading/></div>;
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
