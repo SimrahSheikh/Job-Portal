@@ -36,12 +36,6 @@ const Login = () => {
       newErrors.password =
         "Password must be 8-12 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
     }
-    
-    // Confirm Password Validation
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-    
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -54,8 +48,7 @@ const Login = () => {
       alert("Please select HR or JobSeeker");
       return;
     }
-
-    if (!validateForm()) return; 
+    if (!validateForm()) return;
     try {
       const response = await axios.post("http://localhost:3000/auth/signin", {
         ...formData,
@@ -90,7 +83,9 @@ const Login = () => {
                 placeholder="Email"
                 required
               />
-              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+              )}
             </div>
             <div>
               <input
@@ -102,7 +97,9 @@ const Login = () => {
                 placeholder="Password"
                 required
               />
-              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+              )}
             </div>
             <div className="flex justify-end">
               <a href="#" className="text-sm text-blue-500 hover:underline">
