@@ -15,6 +15,8 @@ import SavedJobs from "./components/User_Components/SavedJobs";
 import Profile from "./components/User_Components/Profile";
 import JobDetails from "./components/User_Components/JobDetails";
 import Premium from "./components/Premium";
+import PaymentPage from "./components/PaymentPage";
+import PaymentSuccess from "./components/PaymentSuccess";
 import Web_homepage from "./components/Layouts/Web_homepage";
 import ForgotPassword from "./components/passwordHandle/ForgotPassword";
 import ResetPassword from "./components/passwordHandle/ResetPassword";
@@ -24,12 +26,16 @@ function App() {
     <BrowserRouter>
       <div className="relative h-screen">
         <Routes>
-          <Route path="/" element={<Web_homepage />} />
+        <Route path="/" element={<Web_homepage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/premium" element={<Premium />} />
+
           <Route path="/forgot-password" element ={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword/>}/> 
+
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment/:plan" element={<PaymentPage />} />
 
           <Route path="/hr" element={<HRLayout />}>
             <Route index element={<HrHome />} />
@@ -38,6 +44,7 @@ function App() {
             <Route path="/hr/profile" element={<HRProfile />} />
             <Route path="/hr/home" element={<HrHome />} />
             <Route path="applications/:jobId" element={<Applications />} />
+
           </Route>
 
           {/* User Dashboard Routes */}
