@@ -18,6 +18,8 @@ import Premium from "./components/Premium";
 import PaymentPage from "./components/PaymentPage";
 import PaymentSuccess from "./components/PaymentSuccess";
 import Web_homepage from "./components/Layouts/Web_homepage";
+import ForgotPassword from "./components/passwordHandle/ForgotPassword";
+import ResetPassword from "./components/passwordHandle/ResetPassword";
 
 function App() {
   return (
@@ -28,8 +30,13 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/premium" element={<Premium />} />
+
+          <Route path="/forgot-password" element ={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword/>}/> 
+
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment/:plan" element={<PaymentPage />} />
+
           <Route path="/hr" element={<HRLayout />}>
             <Route index element={<HrHome />} />
             <Route path="/hr/postjob" element={<PostJob />} />
