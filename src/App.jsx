@@ -16,6 +16,8 @@ import Profile from "./components/User_Components/Profile";
 import JobDetails from "./components/User_Components/JobDetails";
 import Premium from "./components/Premium";
 import Web_homepage from "./components/Layouts/Web_homepage";
+import ForgotPassword from "./components/passwordHandle/ForgotPassword";
+import ResetPassword from "./components/passwordHandle/ResetPassword";
 
 function App() {
   return (
@@ -26,6 +28,9 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/premium" element={<Premium />} />
+          <Route path="/forgot-password" element ={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword/>}/> 
+
           <Route path="/hr" element={<HRLayout />}>
             <Route index element={<HrHome />} />
             <Route path="/hr/postjob" element={<PostJob />} />
