@@ -15,6 +15,8 @@ import SavedJobs from "./components/User_Components/SavedJobs";
 import Profile from "./components/User_Components/Profile";
 import JobDetails from "./components/User_Components/JobDetails";
 import Premium from "./components/Premium";
+import PaymentPage from "./components/PaymentPage";
+import PaymentSuccess from "./components/PaymentSuccess";
 import Web_homepage from "./components/Layouts/Web_homepage";
 
 function App() {
@@ -22,10 +24,12 @@ function App() {
     <BrowserRouter>
       <div className="relative h-screen">
         <Routes>
-          <Route path="/" element={<Web_homepage />} />
+        <Route path="/" element={<Web_homepage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/premium" element={<Premium />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment/:plan" element={<PaymentPage />} />
           <Route path="/hr" element={<HRLayout />}>
             <Route index element={<HrHome />} />
             <Route path="/hr/postjob" element={<PostJob />} />
@@ -33,6 +37,7 @@ function App() {
             <Route path="/hr/profile" element={<HRProfile />} />
             <Route path="/hr/home" element={<HrHome />} />
             <Route path="applications/:jobId" element={<Applications />} />
+
           </Route>
 
           {/* User Dashboard Routes */}
