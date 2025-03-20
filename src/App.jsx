@@ -52,6 +52,7 @@ function App() {
             {/* <Route index element={<UserDashboard />} /> */}
             <Route path="/user/jobs" element={<Jobs />} />
             <Route path="/user/jobs/:id" element={<JobDetails />} />
+            <Route path="/user/applied-jobs/:id" element={<JobDetails />} />
             <Route path="/user/applied-jobs" element={<AppliedJobs />} />
             <Route path="/user/saved-jobs" element={<SavedJobs />} />
             <Route path="/user/profile" element={<Profile />} />

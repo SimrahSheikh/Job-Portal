@@ -23,7 +23,7 @@ const Login = () => {
     }
     if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/.test(formData.password)) {
       newErrors.password =
-        "Invalid Password";
+        "Password must be 8-12 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -48,6 +48,7 @@ const Login = () => {
 
       localStorage.setItem("auth-token", response.data.token);
       localStorage.setItem("role", response.data.role);
+      // console.log("Login Success", response.data);
       navigate(role === "hr" ? "/hr" : "/user/jobs");
     } catch (error) {
       console.log(error.response)

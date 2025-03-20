@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Skills } from "../../../data/skills";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -9,6 +9,7 @@ import Popup from "./Popup";
 const JobDetails = () => {
   const { id } = useParams();
   const [job, setJob] = useState(null);
+  const [hrDetails, setHrDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [resumeError, setResumeError] = useState(false);
@@ -18,6 +19,8 @@ const JobDetails = () => {
   const [coverLetter, setCoverLetter] = useState("");
   const [status, setStatus] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [button, setButton] = useState(false);
+  const locationPath = useLocation();
 
   const cookies = new Cookies();
   const token = cookies.get("user-token") || localStorage.getItem("auth-token");
@@ -25,13 +28,31 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/hr/getjobsById/${id}`, {
-          headers: {
-            "authorization-user": 'Bearer ' + token,
-          }
-        });
-        console.log(response.data)
-        setJob(response.data);
+        let response;
+        if (locationPath.pathname.includes('/user/jobs')) {
+          console.log("1");
+          response = await axios.get(`http://localhost:3000/user/getjobsById/${id}`, {
+            headers: {
+              "authorization-user": 'Bearer ' + token,
+            }
+          });
+          setJob(response.data);
+        } else if (locationPath.pathname.includes('/user/applied-jobs')) {
+          console.log("2");
+          response = await axios.get(`http://localhost:3000/user/getAppliedJobsById/${id}`, {
+            headers: {
+              "authorization-user": 'Bearer ' + token,
+            }
+          });
+          setJob(response.data.job);
+          setHrDetails(response.data.hrDetails);
+          setCoverLetter(response.data.coverLetter);
+          setExperience(response.data.experience);
+          setSelectedSkills(response.data.skills);
+          setLocation(response.data.location);
+          setButton(true);
+        }
+        // console.log(response.data);
         setSelectedFile(response.data.resume);
         setLoading(false);
       } catch (error) {
@@ -42,7 +63,7 @@ const JobDetails = () => {
     };
 
     fetchJobDetails();
-  }, [id]);
+  }, [id, locationPath.pathname, token]);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -146,7 +167,7 @@ const JobDetails = () => {
 
         <div className="mb-6">
           <h1 className="text-4xl font-bold text-gray-900">{job.Title}</h1>
-          <p className="text-gray-500 text-sm mt-1">{job.hrDetails.companyName} · {calculateTimeAgo(new Date(job.createdAt).toLocaleDateString())}</p>
+          <p className="text-gray-500 text-sm mt-1">{job?.hrDetails?.companyName || hrDetails.companyName } · {calculateTimeAgo(new Date(job.createdAt).toLocaleDateString())}</p>
         </div>
 
         <div className="bg-gray-100 p-5 rounded-lg shadow-sm mb-6">
@@ -245,12 +266,15 @@ const JobDetails = () => {
                 placeholder="Write your cover letter..."
               ></textarea>
             </div>
+            {button ? 
+            <div className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 text-center">Already Submitted</div>
+            :
             <button
               type="submit"
-              className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all"
+              className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800"
             >
               Submit Application
-            </button>
+            </button>}
           </form>
         </div>
       </div>
