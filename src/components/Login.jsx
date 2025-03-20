@@ -38,9 +38,9 @@ const Login = () => {
     }
     
     // Confirm Password Validation
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
+    // if (formData.password !== formData.confirmPassword) {
+    //   newErrors.confirmPassword = "Passwords do not match";
+    // }
     
 
     setErrors(newErrors);
@@ -64,6 +64,7 @@ const Login = () => {
 
       localStorage.setItem("auth-token", response.data.token);
       localStorage.setItem("role", response.data.role);
+      // console.log("Login Success", response.data);
       navigate(role === "hr" ? "/hr" : "/user/jobs");
     } catch (error) {
       console.error("Login Failed", error);
