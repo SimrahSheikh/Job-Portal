@@ -3,7 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { Skills } from "../../../data/skills";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../assets/Breadcrumbs";
 import Popup from "./Popup";
 
 const JobDetails = () => {
