@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,7 +41,7 @@ const CheckoutForm = ({ plan }) => {
         };
 
         fetchSavedCards();
-    }, []);
+    }, [token]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -69,18 +69,6 @@ const CheckoutForm = ({ plan }) => {
             }
 
             paymentMethodId = paymentMethod.id;
-
-            // Attach the payment method to the customer
-            // try {
-            //     await axios.post('http://localhost:3000/stripe/attach-payment-method', {
-            //         paymentMethodId,
-            //     });
-            // } catch (err) {
-            //     console.error('Error attaching payment method:', err);
-            //     setError('Failed to attach payment method');
-            //     setLoading(false);
-            //     return;
-            // }
         }
 
         try {
@@ -134,7 +122,7 @@ const CheckoutForm = ({ plan }) => {
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Payment Information</h2>
                 <p className="text-gray-600">Enter your payment details to continue</p>
             </div>
-    
+
             <form onSubmit={handleSubmit} className="space-y-6">
                 {savedCards.length > 0 && (
                     <div className="bg-gray-50 p-4 rounded-xl">
@@ -155,7 +143,7 @@ const CheckoutForm = ({ plan }) => {
                         </select>
                     </div>
                 )}
-    
+
                 <div className="relative">
                     <div className="absolute inset-0 flex items-center" aria-hidden="true">
                         <div className="w-full border-t border-gray-300" />
@@ -170,7 +158,7 @@ const CheckoutForm = ({ plan }) => {
                         </button>
                     </div>
                 </div>
-    
+
                 {showNewCardForm && (
                     <>
                         <div className="space-y-6">
@@ -188,7 +176,7 @@ const CheckoutForm = ({ plan }) => {
                                     required
                                 />
                             </div>
-    
+
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -198,7 +186,7 @@ const CheckoutForm = ({ plan }) => {
                                         <CardNumberElement options={cardElementOptions} />
                                     </div>
                                 </div>
-    
+
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <div className="border border-gray-300 rounded-lg p-3 focus-within:ring-2 focus-within:ring-indigo-500">
@@ -212,7 +200,7 @@ const CheckoutForm = ({ plan }) => {
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -228,7 +216,7 @@ const CheckoutForm = ({ plan }) => {
                                         required
                                     />
                                 </div>
-    
+
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         ZIP Code
@@ -253,11 +241,11 @@ const CheckoutForm = ({ plan }) => {
                         </div>
                     </>
                 )}
-    
+
                 {error && (
                     <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
                 )}
-    
+
                 <button
                     type="submit"
                     disabled={!stripe || loading}
@@ -273,7 +261,7 @@ const CheckoutForm = ({ plan }) => {
                     )}
                 </button>
             </form>
-    
+
             <div className="mt-8 pt-6 border-t border-gray-200">
                 <div className="flex flex-col items-center space-y-3">
                     <span className="text-sm text-gray-500">Secure and encrypted payments</span>
