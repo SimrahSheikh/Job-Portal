@@ -20,6 +20,7 @@ import PaymentSuccess from "./components/PaymentSuccess";
 import Web_homepage from "./components/Layouts/Web_homepage";
 import ForgotPassword from "./components/passwordHandle/ForgotPassword";
 import ResetPassword from "./components/passwordHandle/ResetPassword";
+import HRLogin from "./components/HRLogin";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
         <Route path="/" element={<Web_homepage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/login-hr" element={<HRLogin />} />
+
           <Route path="/premium" element={<Premium />} />
 
           <Route path="/forgot-password" element ={<ForgotPassword />} />
