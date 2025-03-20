@@ -3,7 +3,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { useParams } from 'react-router-dom';
 import CheckoutForm from './CheckoutForm';
-import Breadcrumbs from './User_Components/Breadcrumbs';
+import Breadcrumbs from '../../assets/Breadcrumbs';
 
 // Load your publishable key from Stripe
 const stripePromise = loadStripe("pk_test_51R2tsUQXyCFGQiCOE36zlvWw5vmhTOv1Vxd6CtsE4ixFupH9UVYmnr9NAtZ2MjFUIuSU2efEJNRXMOedPjnShrjD00WL90liLi");

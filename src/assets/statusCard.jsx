@@ -1,10 +1,15 @@
 // StatusCard.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StatusCard = ({ job }) => {
-  // console.log(job);
+  const navigate = useNavigate();
+  console.log(job._id);
+  const showJobDetails = () => {
+    navigate(`/user/applied-jobs/${job._id}`);
+  };
   return (
-    <div key={job._id} className="max-w-sm p-5 bg-white shadow-lg rounded-2xl border transition-transform transform hover:scale-105 duration-300">
+    <div key={job._id} className="max-w-sm p-5 bg-white shadow-lg rounded-2xl border transition-transform transform hover:scale-105 duration-300" onClick={showJobDetails}>
       {/* Company Logo and Save Button */}
       <div className="flex justify-between items-center">
         <div className="w-10 h-10 flex items-center justify-center bg-black text-white rounded-full font-bold">

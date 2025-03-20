@@ -1,5 +1,5 @@
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
+import Login from "./components/auth/Login";
+import SignUp from "./components/auth/SignUp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PostJob from "./components/HR_Components/PostJob";
 import HRLayout from "./components/Layouts/HRLayout";
@@ -14,9 +14,9 @@ import AppliedJobs from "./components/User_Components/AppliedJobs";
 import SavedJobs from "./components/User_Components/SavedJobs";
 import Profile from "./components/User_Components/Profile";
 import JobDetails from "./components/User_Components/JobDetails";
-import Premium from "./components/Premium";
-import PaymentPage from "./components/PaymentPage";
-import PaymentSuccess from "./components/PaymentSuccess";
+import Premium from "./components/stripe/Premium";
+import PaymentPage from "./components/stripe/PaymentPage";
+import PaymentSuccess from "./components/stripe/PaymentSuccess";
 import Web_homepage from "./components/Layouts/Web_homepage";
 import ForgotPassword from "./components/passwordHandle/ForgotPassword";
 import ResetPassword from "./components/passwordHandle/ResetPassword";
@@ -55,6 +55,7 @@ function App() {
             {/* <Route index element={<UserDashboard />} /> */}
             <Route path="/user/jobs" element={<Jobs />} />
             <Route path="/user/jobs/:id" element={<JobDetails />} />
+            <Route path="/user/applied-jobs/:id" element={<JobDetails />} />
             <Route path="/user/applied-jobs" element={<AppliedJobs />} />
             <Route path="/user/saved-jobs" element={<SavedJobs />} />
             <Route path="/user/profile" element={<Profile />} />
