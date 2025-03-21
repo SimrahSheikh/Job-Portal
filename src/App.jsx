@@ -24,6 +24,7 @@ import ForgotPassword from './components/passwordHandle/ForgotPassword';
 import ResetPassword from './components/passwordHandle/ResetPassword';
 import HRLogin from './components/auth/HRLogin';
 
+
 function App() {
   return (
     <AuthProvider>
