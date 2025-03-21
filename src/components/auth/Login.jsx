@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EyeIcon, EyeOffIcon } from "lucide-react"; // Using Lucide Icon
 import { Landing_NavBar } from "../Layouts/Landing_NavBar";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -11,6 +12,7 @@ const Login = () => {
   const [apiError, setApiError] = useState(""); // Stores API error message
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +55,11 @@ const Login = () => {
 
       localStorage.setItem("auth-token", response.data.token);
       localStorage.setItem("role", response.data.role);
-      // console.log("Login Success", response.data);
+
+      // Update the auth context
+      login(response.data.role);
+
+      // Navigate to the appropriate dashboard
       navigate(role === "hr" ? "/hr" : "/user/jobs");
     } catch (error) {
       console.log(error.response);

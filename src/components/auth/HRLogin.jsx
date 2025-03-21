@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EyeIcon, EyeOffIcon } from "lucide-react"; // Using Lucide Icons
-import { Landing_NavBar } from "./Layouts/Landing_NavBar";
+import { Landing_NavBar } from "../Layouts/Landing_NavBar";
 
 const HRLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
