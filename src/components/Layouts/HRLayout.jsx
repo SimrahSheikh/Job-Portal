@@ -8,7 +8,7 @@ const HRLayout = () => {
   return (
     <div className="flex" >
       <NavBar />
-      <div className="ml-64 flex-1 flex items-center justify-center bg-gray-100 min-h-screen">
+      <div className="ml-64 flex-1 flex items-center justify-center min-h-screen bg-gradient-to-r from-slate-300 to-slate-500">
        
         <Outlet />
         </div>

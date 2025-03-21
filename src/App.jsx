@@ -8,7 +8,6 @@ import { HrHome } from "./components/HR_Components/HrHome";
 import Applications from "./components/HR_Components/Applications";
 import PostedJobs from "./components/HR_Components/PostedJobs";
 import UserLayout from "./components/Layouts/UserLayout";
-import UserDashboard from "./components/User_Components/UserDashboard";
 import Jobs from "./components/User_Components/Jobs";
 import AppliedJobs from "./components/User_Components/AppliedJobs";
 import SavedJobs from "./components/User_Components/SavedJobs";

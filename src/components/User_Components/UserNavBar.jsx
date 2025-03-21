@@ -1,26 +1,122 @@
+import React, { Suspense } from "react"; // Add Suspense
 import { Link, useLocation } from "react-router-dom";
 import { Briefcase, Bookmark, FileText, User, LogOut } from "lucide-react";
+import {
+  List,
+  Card,
+  ListItem,
+  Accordion,
+  Typography,
+  AccordionBody,
+  AccordionHeader,
+  ListItemPrefix,
+  Avatar,
+} from "@material-tailwind/react";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 const UserNavBar = () => {
   const location = useLocation();
-  // console.log(location.pathname);
+  const [open, setOpen] = React.useState(null);
 
+  const handleOpen = (value) => {
+    setOpen(open === value ? null : value);
+  };
+
+  const LIST_ITEM_STYLES =
+    "select-none hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100 hover:text-gray-900 focus:text-gray-900 active:text-gray-900 data-[selected=true]:text-gray-900";
 
   return (
-    <aside className="h-full w-64 border-r shadow-md flex flex-col p-4">
+    <aside className="h-full w-64 border-r shadow-md flex flex-col p-6 bg-white">
       <div className="flex items-center justify-center py-4 text-xl font-bold text-gray-700">
         Job Portal
       </div>
 
       <nav className="flex flex-col justify-between h-full">
-        <ul className="space-y-2">
-          <NavItem icon={<Briefcase size={20} />} text="Jobs" link="/user/jobs" currentPath={location.pathname} />
-          <NavItem icon={<FileText size={20} />} text="Applied Jobs" link="/user/applied-jobs" currentPath={location.pathname} />
-          <NavItem icon={<Bookmark size={20} />} text="Saved Jobs" link="/user/saved-jobs" currentPath={location.pathname} />
-          <NavItem icon={<User size={20} />} text="Profile" link="/user/profile" currentPath={location.pathname} />
-        </ul>
-        <Link to={"/login"} className={`flex items-center p-3 rounded-md transition-all focus:outline-none focus:ring-2 focus:ring-indigo-200`}>
-          {<LogOut size={20} />}
+        <List>
+          {/* Jobs Section */}
+          <Accordion open={open === 1}>
+            <ListItem
+              selected={open === 1}
+              onClick={() => handleOpen(1)}
+              className="p-3 select-none hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100 hover:text-gray-900 focus:text-gray-900 active:text-gray-900 data-[selected=true]:text-gray-900"
+            >
+              <ListItemPrefix>
+                <Briefcase size={20} />
+              </ListItemPrefix>
+              <Typography className="mr-auto font-normal text-inherit">
+                Jobs
+              </Typography>
+              <ChevronDownIcon
+                strokeWidth={3}
+                className={`ml-auto h-4 w-4 text-gray-500 transition-transform ${
+                  open === 1 ? "rotate-180" : ""
+                }`}
+              />
+            </ListItem>
+            <AccordionBody className="py-1">
+              <List className="p-0">
+                <NavItem
+                  text="All Jobs"
+                  link="/user/jobs"
+                  currentPath={location.pathname}
+                  indent={16}
+                />
+                <NavItem
+                  text="Applied Jobs"
+                  link="/user/applied-jobs"
+                  currentPath={location.pathname}
+                  indent={16}
+                />
+                <NavItem
+                  text="Saved Jobs"
+                  link="/user/saved-jobs"
+                  currentPath={location.pathname}
+                  indent={16}
+                />
+              </List>
+            </AccordionBody>
+          </Accordion>
+
+          {/* Profile Section */}
+          <Accordion open={open === 2}>
+            <ListItem
+              selected={open === 2}
+              onClick={() => handleOpen(2)}
+              className="p-3 select-none hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100 hover:text-gray-900 focus:text-gray-900 active:text-gray-900 data-[selected=true]:text-gray-900"
+            >
+              <ListItemPrefix>
+                <User size={20} />
+              </ListItemPrefix>
+              <Typography className="mr-auto font-normal text-inherit">
+                Profile
+              </Typography>
+              <ChevronDownIcon
+                strokeWidth={3}
+                className={`ml-auto h-4 w-4 text-gray-500 transition-transform ${
+                  open === 2 ? "rotate-180" : ""
+                }`}
+              />
+            </ListItem>
+            <AccordionBody className="py-1">
+              <List className="p-0">
+                <NavItem
+                  text="My Profile"
+                  link="/user/profile"
+                  currentPath={location.pathname}
+                  indent={16}
+                />
+              </List>
+            </AccordionBody>
+          </Accordion>
+        </List>
+
+        {/* Log Out */}
+        <Link
+          to={"/login"}
+          onClick={() => localStorage.removeItem("auth-token")}
+          className="flex items-center p-3 rounded-md transition-all focus:outline-none focus:ring-2 focus:ring-indigo-200 hover:bg-indigo-100"
+        >
+          <LogOut size={20} />
           <span className="ml-3 text-gray-700 font-medium">Log Out</span>
         </Link>
       </nav>
@@ -28,16 +124,17 @@ const UserNavBar = () => {
   );
 };
 
-const NavItem = ({ icon, text, link, currentPath }) => {
+const NavItem = React.memo(({ text, link, currentPath, indent = 0 }) => {
   const isActive = currentPath === link;
   return (
-    <li>
-      <Link to={link} className={`flex items-center p-3 rounded-md transition-all focus:outline-none focus:ring-2 focus:ring-indigo-200 ${isActive ? 'bg-indigo-100' : 'hover:bg-indigo-100'}`}>
-        {icon}
+    <ListItem
+      className={`px-${indent} py-2 select-none hover:bg-indigo-100 focus:bg-indigo-100 active:bg-indigo-100 hover:text-gray-900 focus:text-gray-900 active:text-gray-900 data-[selected=true]:text-gray-900`}
+    >
+      <Link to={link} className="flex items-center p-2">
         <span className="ml-3 text-gray-700 font-medium">{text}</span>
       </Link>
-    </li>
+    </ListItem>
   );
-};
+});
 
 export default UserNavBar;
