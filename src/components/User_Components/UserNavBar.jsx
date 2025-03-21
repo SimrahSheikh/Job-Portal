@@ -1,6 +1,6 @@
-import React, { Suspense } from "react"; // Add Suspense
+import React from "react"; // Add Suspense
 import { Link, useLocation } from "react-router-dom";
-import { Briefcase, Bookmark, FileText, User, LogOut } from "lucide-react";
+import { Briefcase, User, LogOut } from "lucide-react";
 import {
   List,
   Card,
@@ -8,15 +8,16 @@ import {
   Accordion,
   Typography,
   AccordionBody,
-  AccordionHeader,
   ListItemPrefix,
-  Avatar,
 } from "@material-tailwind/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../../contexts/AuthContext";
 
 const UserNavBar = () => {
   const location = useLocation();
   const [open, setOpen] = React.useState(null);
+  const { logout } = useAuth();
+
 
   const handleOpen = (value) => {
     setOpen(open === value ? null : value);
@@ -26,13 +27,13 @@ const UserNavBar = () => {
     "select-none hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100 hover:text-gray-900 focus:text-gray-900 active:text-gray-900 data-[selected=true]:text-gray-900";
 
   return (
-    <aside className="h-full w-64 border-r shadow-md flex flex-col p-6 bg-white">
+    <aside className="h-full w-64 border-r shadow-md flex flex-col py-6 px-3 bg-white">
       <div className="flex items-center justify-center py-4 text-xl font-bold text-gray-700">
         Job Portal
       </div>
 
       <nav className="flex flex-col justify-between h-full">
-        <List>
+        <List className="space-y-2">
           {/* Jobs Section */}
           <Accordion open={open === 1}>
             <ListItem
@@ -48,9 +49,7 @@ const UserNavBar = () => {
               </Typography>
               <ChevronDownIcon
                 strokeWidth={3}
-                className={`ml-auto h-4 w-4 text-gray-500 transition-transform ${
-                  open === 1 ? "rotate-180" : ""
-                }`}
+                className={`ml-auto h-4 w-4 text-gray-500 transition-transform ${open === 1 ? "rotate-180" : "" }`}
               />
             </ListItem>
             <AccordionBody className="py-1">
@@ -92,9 +91,8 @@ const UserNavBar = () => {
               </Typography>
               <ChevronDownIcon
                 strokeWidth={3}
-                className={`ml-auto h-4 w-4 text-gray-500 transition-transform ${
-                  open === 2 ? "rotate-180" : ""
-                }`}
+                className={`ml-auto h-4 w-4 text-gray-500 transition-transform ${open === 2 ? "rotate-180" : ""
+                  }`}
               />
             </ListItem>
             <AccordionBody className="py-1">
@@ -113,7 +111,7 @@ const UserNavBar = () => {
         {/* Log Out */}
         <Link
           to={"/login"}
-          onClick={() => localStorage.removeItem("auth-token")}
+          onClick={() => { localStorage.removeItem("auth-token"); localStorage.removeItem("role"); logout(); }}
           className="flex items-center p-3 rounded-md transition-all focus:outline-none focus:ring-2 focus:ring-indigo-200 hover:bg-indigo-100"
         >
           <LogOut size={20} />
